@@ -1,0 +1,25 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.menu-box {
+  background: rgb(54, 54, 54);
+  box-shadow: 1px 1px 30px rgba(0, 0, 0, 0.61);
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+}
+
+.add-section button {
+  cursor: pointer;
+}

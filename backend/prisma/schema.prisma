@@ -31,9 +31,10 @@ model StudySession {
   duration  Int      // minutes
   topic     String
   type      String   // theory, practice, etc
-  date      DateTime // logical study day (use start of day)
+  date      DateTime // logical study day
 
   createdAt DateTime @default(now())
 
   @@index([userId, date])
 }
+

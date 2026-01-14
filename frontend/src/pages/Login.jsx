@@ -28,7 +28,11 @@ export default function Login() {
       );
 
       console.log(res.data);
-      nav("/");
+      const user = res.email;
+
+      localStorage.setItem("user", user);
+
+      nav("/dashboard");
     } catch (error) {
       console.error(error.message);
     }
