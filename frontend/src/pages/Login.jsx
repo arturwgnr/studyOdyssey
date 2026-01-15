@@ -19,7 +19,6 @@ export default function Login() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    console.log(formData);
 
     try {
       const res = await axios.post(
@@ -27,10 +26,11 @@ export default function Login() {
         formData
       );
 
-      console.log(res.data);
-      const user = res.email;
+      const token = res.data.token;
+      const user = formData.email; // <-- aqui sim existe
 
       localStorage.setItem("user", user);
+      localStorage.setItem("token", token);
 
       nav("/dashboard");
     } catch (error) {

@@ -1,6 +1,7 @@
 import {
   addStudySection,
   listStudySection,
+  deleteStudySection,
 } from "../services/studySession.service.js";
 
 export async function addStudySectionController(req, res) {
@@ -28,7 +29,19 @@ export async function listStudySectionController(req, res) {
   try {
     const studySection = await listStudySection({ userId });
 
-    res.status(200).json({ message: "Study Section" }, studySection);
+    res.status(200).json(studySection);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+}
+
+export async function deleteStudySectionController(req, res) {
+  try {
+    const { id } = req.params;
+
+    const updated = await deleteStudySection({ id });
+
+    res.status(200).json(updated);
   } catch (error) {
     res.status(500).json(error.message);
   }

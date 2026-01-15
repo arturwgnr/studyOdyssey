@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
 import cors from "cors";
 import { authMiddleware } from "./middleware/middleware.js";
@@ -10,6 +13,7 @@ import {
 import {
   addStudySectionController,
   listStudySectionController,
+  deleteStudySectionController,
 } from "./controllers/studySession.controller.js";
 
 const app = express();
@@ -33,3 +37,4 @@ app.post("/auth/login", userLoginController);
 //Study Section
 app.get("/study-sections", authMiddleware, listStudySectionController);
 app.post("/study-sections", authMiddleware, addStudySectionController);
+app.delete("/study-sections/:id", authMiddleware, deleteStudySectionController);
