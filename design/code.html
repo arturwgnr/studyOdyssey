@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>StudyFlow Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#19e66b",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#112117",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .heatmap-cell { width: 12px; height: 12px; border-radius: 2px; }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-[#111814] dark:text-white min-h-screen">
+<div class="flex h-screen overflow-hidden">
+<!-- SideNavBar -->
+<aside class="w-64 flex-shrink-0 bg-white dark:bg-[#1a2e22] border-r border-[#f0f4f2] dark:border-white/10 flex flex-col justify-between p-6">
+<div class="flex flex-col gap-8">
+<div class="flex items-center gap-3">
+<div class="bg-primary size-10 rounded-xl flex items-center justify-center text-[#111814]">
+<span class="material-symbols-outlined font-bold">menu_book</span>
+</div>
+<div class="flex flex-col">
+<h1 class="text-[#111814] dark:text-white text-lg font-bold leading-none">StudyFlow</h1>
+<p class="text-[#638872] text-xs font-medium">Premium Tracker</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary text-[#111814] font-semibold" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-[#638872] hover:bg-[#f0f4f2] dark:hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-sm">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-[#638872] hover:bg-[#f0f4f2] dark:hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined">import_contacts</span>
+<span class="text-sm">Courses</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-[#638872] hover:bg-[#f0f4f2] dark:hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm">Settings</span>
+</a>
+</nav>
+</div>
+<button class="w-full bg-primary hover:bg-primary/90 text-[#111814] font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined">add_circle</span>
+<span>Log Session</span>
+</button>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto scrollbar-hide">
+<!-- TopNavBar -->
+<header class="sticky top-0 z-10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-[#f0f4f2] dark:border-white/10 px-8 py-4 flex items-center justify-between">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative max-w-md w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#638872]">search</span>
+<input class="w-full bg-white dark:bg-white/5 border-none rounded-xl pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary/50 placeholder:text-[#638872]" placeholder="Search courses or materials..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="relative p-2 text-[#638872] hover:bg-white dark:hover:bg-white/5 rounded-full transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-background-dark"></span>
+</button>
+<div class="flex items-center gap-3 pl-6 border-l border-[#f0f4f2] dark:border-white/10">
+<div class="text-right">
+<p class="text-sm font-bold leading-none">Alex Rivera</p>
+<p class="text-[10px] text-primary font-bold tracking-wider uppercase">Pro Member</p>
+</div>
+<div class="size-10 rounded-full bg-cover bg-center border-2 border-primary" data-alt="Student profile avatar with light background" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBzGduZUbIDqhRJmeNVe-i8K78rRYr9J65aF9jjbtuziAzJzcRIcnb56ZS2WGUfZuP89w36V8g9mxWxAqJ9Ip84Frffr6h1cIMQd1iceNnYKNJTyn1je3nz6SjxsOw033TB8oyOfL7xBTnlnh3V66dgCsmyY4lRMHPnDlHMscCArqT7UWqgEx4ivzrIsosyMEp4PIf3EkTWi7NSA1aJAFm_klMR5rCIQR8__Y4eI-WyEsXq1WBPCde3Kdqp4Sf5THpgW1pjQqmqN1c');"></div>
+</div>
+</div>
+</header>
+<div class="p-8 space-y-8">
+<!-- PageHeading -->
+<div class="flex items-end justify-between">
+<div class="space-y-1">
+<h2 class="text-3xl font-black tracking-tight">Welcome back, Alex! 👋</h2>
+<p class="text-[#638872]">You're 200 XP away from Level 15. Keep it up!</p>
+</div>
+<div class="hidden lg:flex items-center gap-2 bg-white dark:bg-white/5 px-4 py-2 rounded-xl shadow-sm border border-[#f0f4f2] dark:border-white/10">
+<span class="material-symbols-outlined text-primary">calendar_today</span>
+<span class="text-sm font-semibold">October 24, 2023</span>
+</div>
+</div>
+<!-- Top Grid: Streak & Progress -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Hero Card: Current Streak -->
+<div class="lg:col-span-1 bg-white dark:bg-[#1a2e22] p-6 rounded-xl shadow-sm border border-[#f0f4f2] dark:border-white/10 relative overflow-hidden group">
+<div class="relative z-10 flex flex-col justify-between h-full min-h-[160px]">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-orange-500 fill-1">local_fire_department</span>
+<p class="text-[#638872] text-sm font-medium uppercase tracking-wider">Current Streak</p>
+</div>
+<h3 class="text-5xl font-black text-[#111814] dark:text-white">15 Days</h3>
+</div>
+<div class="flex items-center justify-between">
+<p class="text-sm text-[#638872]">Personal best: 24 days</p>
+<button class="text-xs font-bold text-primary hover:underline">View History</button>
+</div>
+</div>
+<div class="absolute -right-8 -bottom-8 opacity-5 group-hover:opacity-10 transition-opacity">
+<span class="material-symbols-outlined text-[160px] text-primary">local_fire_department</span>
+</div>
+</div>
+<!-- Level & XP Card -->
+<div class="lg:col-span-2 bg-white dark:bg-[#1a2e22] p-6 rounded-xl shadow-sm border border-[#f0f4f2] dark:border-white/10 flex flex-col justify-between">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-3">
+<div class="size-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-lg">14</div>
+<div>
+<h4 class="font-bold text-lg">Level 14</h4>
+<p class="text-xs text-[#638872]">Adept Scholar</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-lg font-black text-[#111814] dark:text-white">2,450 <span class="text-xs font-medium text-[#638872]">/ 3,000 XP</span></p>
+<p class="text-xs text-primary font-bold">81.6% Complete</p>
+</div>
+</div>
+<!-- ProgressBar -->
+<div class="space-y-3">
+<div class="h-4 w-full bg-[#f0f4f2] dark:bg-white/5 rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full transition-all duration-1000" style="width: 81.6%"></div>
+</div>
+<p class="text-xs text-[#638872] italic text-center">"The more that you read, the more things you will know."</p>
+</div>
+</div>
+</div>
+<!-- Stats & Heatmap -->
+<div class="grid grid-cols-1 xl:grid-cols-4 gap-6">
+<!-- Key Stats -->
+<div class="xl:col-span-1 grid grid-cols-1 gap-4">
+<div class="bg-white dark:bg-[#1a2e22] p-4 rounded-xl border border-[#f0f4f2] dark:border-white/10 flex items-center gap-4">
+<div class="size-10 bg-blue-100 dark:bg-blue-500/20 text-blue-600 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-xl">schedule</span>
+</div>
+<div>
+<p class="text-[10px] text-[#638872] uppercase font-bold">Total Time</p>
+<p class="text-xl font-bold">42h 15m</p>
+</div>
+</div>
+<div class="bg-white dark:bg-[#1a2e22] p-4 rounded-xl border border-[#f0f4f2] dark:border-white/10 flex items-center gap-4">
+<div class="size-10 bg-purple-100 dark:bg-purple-500/20 text-purple-600 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-xl">history</span>
+</div>
+<div>
+<p class="text-[10px] text-[#638872] uppercase font-bold">Sessions</p>
+<p class="text-xl font-bold">18</p>
+</div>
+</div>
+<div class="bg-white dark:bg-[#1a2e22] p-4 rounded-xl border border-[#f0f4f2] dark:border-white/10 flex items-center gap-4">
+<div class="size-10 bg-primary/20 text-primary-dark rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-xl">stars</span>
+</div>
+<div>
+<p class="text-[10px] text-[#638872] uppercase font-bold">Lifetime XP</p>
+<p class="text-xl font-bold">12,840</p>
+</div>
+</div>
+</div>
+<!-- Study Heatmap -->
+<div class="xl:col-span-3 bg-white dark:bg-[#1a2e22] p-6 rounded-xl shadow-sm border border-[#f0f4f2] dark:border-white/10">
+<div class="flex items-center justify-between mb-6">
+<h4 class="font-bold">Study Activity</h4>
+<div class="flex items-center gap-2 text-[10px] text-[#638872]">
+<span>Less</span>
+<div class="heatmap-cell bg-[#f0f4f2]"></div>
+<div class="heatmap-cell bg-primary/30"></div>
+<div class="heatmap-cell bg-primary/60"></div>
+<div class="heatmap-cell bg-primary"></div>
+<span>More</span>
+</div>
+</div>
+<div class="flex gap-1 overflow-x-auto pb-2 scrollbar-hide">
+<!-- Simple heatmap grid simulation -->
+<div class="grid grid-rows-7 grid-flow-col gap-1">
+<!-- Generate 28 columns for visual simulation -->
+<div class="heatmap-cell bg-primary"></div><div class="heatmap-cell bg-primary/30"></div><div class="heatmap-cell bg-[#f0f4f2]"></div><div class="heatmap-cell bg-primary/60"></div><div class="heatmap-cell bg-primary"></div><div class="heatmap-cell bg-[#f0f4f2]"></div><div class="heatmap-cell bg-primary/30"></div>
+<div class="heatmap-cell bg-primary/30"></div><div class="heatmap-cell bg-[#f0f4f2]"></div><div class="heatmap-cell bg-primary/60"></div><div class="heatmap-cell bg-primary"></div><div class="heatmap-cell bg-primary"></div><div class="heatmap-cell bg-primary/30"></div><div class="heatmap-cell bg-[#f0f4f2]"></div>
+<div class="heatmap-cell bg-[#f0f4f2]"></div><div class="heatmap-cell bg-primary/60"></div><div class="heatmap-cell bg-primary"></div><div class="heatmap-cell bg-[#f0f4f2]"></div><div class="heatmap-cell bg-primary/30"></div><div class="heatmap-cell bg-primary/60"></div><div class="heatmap-cell bg-primary"></div>
+<div class="heatmap-cell bg-primary/60"></div><div class="heatmap-cell bg-primary"></div><div class="heatmap-cell bg-[#f0f4f2]"></div><div class="heatmap-cell bg-primary/30"></div><div class="heatmap-cell bg-primary/60"></div><div class="heatmap-cell bg-primary"></div><div class="heatmap-cell bg-[#f0f4f2]"></div>
+<div class="heatmap-cell bg-primary/30"></div><div class="heatmap-cell bg-primary/60"></div><div class="heatmap-cell bg-primary"></div><div class="heatmap-cell bg-primary/30"></div><div class="heatmap-cell bg-[#f0f4f2]"></div><div class="heatmap-cell bg-primary/60"></div><div class="heatmap-cell bg-primary"></div>
+<div class="heatmap-cell bg-[#f0f4f2]"></div><div class="heatmap-cell bg-primary/60"></div><div class="heatmap-cell bg-primary"></div><div class="heatmap-cell bg-primary/30"></div><div class="heatmap-cell bg-primary/60"></div><div class="heatmap-cell bg-primary"></div><div class="heatmap-cell bg-[#f0f4f2]"></div>
+<div class="heatmap-cell bg-primary/30"></div><div class="heatmap-cell bg-primary/60"></div><div class="heatmap-cell bg-primary"></div><div class="heatmap-cell bg-[#f0f4f2]"></div><div class="heatmap-cell bg-primary/30"></div><div class="heatmap-cell bg-primary/60"></div><div class="heatmap-cell bg-primary"></div>
+<div class="heatmap-cell bg-primary/60"></div><div class="heatmap-cell bg-primary"></div><div class="heatmap-cell bg-[#f0f4f2]"></div><div class="heatmap-cell bg-primary/30"></div><div class="heatmap-cell bg-primary/60"></div><div class="heatmap-cell bg-primary"></div><div class="heatmap-cell bg-[#f0f4f2]"></div>
+<div class="heatmap-cell bg-primary/30"></div><div class="heatmap-cell bg-primary/60"></div><div class="heatmap-cell bg-primary"></div><div class="heatmap-cell bg-primary/30"></div><div class="heatmap-cell bg-[#f0f4f2]"></div><div class="heatmap-cell bg-primary/60"></div><div class="heatmap-cell bg-primary"></div>
+<div class="heatmap-cell bg-primary/60"></div><div class="heatmap-cell bg-primary"></div><div class="heatmap-cell bg-primary/30"></div><div class="heatmap-cell bg-primary/60"></div><div class="heatmap-cell bg-primary"></div><div class="heatmap-cell bg-[#f0f4f2]"></div><div class="heatmap-cell bg-primary/30"></div>
+<div class="heatmap-cell bg-primary"></div><div class="heatmap-cell bg-primary/60"></div><div class="heatmap-cell bg-primary"></div><div class="heatmap-cell bg-[#f0f4f2]"></div><div class="heatmap-cell bg-primary/30"></div><div class="heatmap-cell bg-primary/60"></div><div class="heatmap-cell bg-primary"></div>
+<div class="heatmap-cell bg-primary/30"></div><div class="heatmap-cell bg-primary/60"></div><div class="heatmap-cell bg-primary"></div><div class="heatmap-cell bg-primary/30"></div><div class="heatmap-cell bg-[#f0f4f2]"></div><div class="heatmap-cell bg-primary/60"></div><div class="heatmap-cell bg-primary"></div>
+<div class="heatmap-cell bg-[#f0f4f2]"></div><div class="heatmap-cell bg-primary/60"></div><div class="heatmap-cell bg-primary"></div><div class="heatmap-cell bg-primary/30"></div><div class="heatmap-cell bg-primary/60"></div><div class="heatmap-cell bg-primary"></div><div class="heatmap-cell bg-[#f0f4f2]"></div>
+<div class="heatmap-cell bg-primary/60"></div><div class="heatmap-cell bg-primary"></div><div class="heatmap-cell bg-primary/30"></div><div class="heatmap-cell bg-primary/60"></div><div class="heatmap-cell bg-primary"></div><div class="heatmap-cell bg-[#f0f4f2]"></div><div class="heatmap-cell bg-primary/30"></div>
+<div class="heatmap-cell bg-primary"></div><div class="heatmap-cell bg-primary/60"></div><div class="heatmap-cell bg-primary"></div><div class="heatmap-cell bg-[#f0f4f2]"></div><div class="heatmap-cell bg-primary/30"></div><div class="heatmap-cell bg-primary/60"></div><div class="heatmap-cell bg-primary"></div>
+<div class="heatmap-cell bg-primary/30"></div><div class="heatmap-cell bg-primary/60"></div><div class="heatmap-cell bg-primary"></div><div class="heatmap-cell bg-primary/30"></div><div class="heatmap-cell bg-[#f0f4f2]"></div><div class="heatmap-cell bg-primary/60"></div><div class="heatmap-cell bg-primary"></div>
+<div class="heatmap-cell bg-[#f0f4f2]"></div><div class="heatmap-cell bg-primary/60"></div><div class="heatmap-cell bg-primary"></div><div class="heatmap-cell bg-primary/30"></div><div class="heatmap-cell bg-primary/60"></div><div class="heatmap-cell bg-primary"></div><div class="heatmap-cell bg-[#f0f4f2]"></div>
+<div class="heatmap-cell bg-primary/60"></div><div class="heatmap-cell bg-primary"></div><div class="heatmap-cell bg-primary/30"></div><div class="heatmap-cell bg-primary/60"></div><div class="heatmap-cell bg-primary"></div><div class="heatmap-cell bg-[#f0f4f2]"></div><div class="heatmap-cell bg-primary/30"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Charts & Recent Activity -->
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+<!-- Weekly Study Charts -->
+<div class="bg-white dark:bg-[#1a2e22] p-6 rounded-xl shadow-sm border border-[#f0f4f2] dark:border-white/10">
+<div class="flex items-center justify-between mb-8">
+<h4 class="font-bold">Weekly Performance</h4>
+<select class="bg-background-light dark:bg-white/5 border-none rounded-lg text-xs font-bold py-1 px-3 focus:ring-1 focus:ring-primary">
+<option>This Week</option>
+<option>Last Week</option>
+</select>
+</div>
+<div class="flex items-end justify-between h-48 px-4">
+<!-- Bar Chart Visual -->
+<div class="flex flex-col items-center gap-2 group h-full justify-end">
+<div class="w-8 bg-primary/40 group-hover:bg-primary transition-all rounded-t-lg" style="height: 45%;"></div>
+<span class="text-[10px] text-[#638872] font-bold">MON</span>
+</div>
+<div class="flex flex-col items-center gap-2 group h-full justify-end">
+<div class="w-8 bg-primary/40 group-hover:bg-primary transition-all rounded-t-lg" style="height: 65%;"></div>
+<span class="text-[10px] text-[#638872] font-bold">TUE</span>
+</div>
+<div class="flex flex-col items-center gap-2 group h-full justify-end">
+<div class="w-8 bg-primary/40 group-hover:bg-primary transition-all rounded-t-lg" style="height: 90%;"></div>
+<span class="text-[10px] text-[#638872] font-bold">WED</span>
+</div>
+<div class="flex flex-col items-center gap-2 group h-full justify-end">
+<div class="w-8 bg-primary/40 group-hover:bg-primary transition-all rounded-t-lg" style="height: 30%;"></div>
+<span class="text-[10px] text-[#638872] font-bold">THU</span>
+</div>
+<div class="flex flex-col items-center gap-2 group h-full justify-end">
+<div class="w-8 bg-primary/40 group-hover:bg-primary transition-all rounded-t-lg" style="height: 75%;"></div>
+<span class="text-[10px] text-[#638872] font-bold">FRI</span>
+</div>
+<div class="flex flex-col items-center gap-2 group h-full justify-end">
+<div class="w-8 bg-primary/40 group-hover:bg-primary transition-all rounded-t-lg" style="height: 20%;"></div>
+<span class="text-[10px] text-[#638872] font-bold">SAT</span>
+</div>
+<div class="flex flex-col items-center gap-2 group h-full justify-end">
+<div class="w-8 bg-primary/40 group-hover:bg-primary transition-all rounded-t-lg" style="height: 15%;"></div>
+<span class="text-[10px] text-[#638872] font-bold">SUN</span>
+</div>
+</div>
+</div>
+<!-- Topic Distribution & Recent Sessions -->
+<div class="space-y-6">
+<div class="bg-white dark:bg-[#1a2e22] p-6 rounded-xl shadow-sm border border-[#f0f4f2] dark:border-white/10">
+<h4 class="font-bold mb-4">Topic Distribution</h4>
+<div class="flex items-center gap-8">
+<div class="relative size-32">
+<svg class="w-full h-full -rotate-90" viewbox="0 0 36 36">
+<circle class="stroke-[#f0f4f2] dark:stroke-white/5" cx="18" cy="18" fill="none" r="16" stroke-width="4"></circle>
+<circle class="stroke-primary" cx="18" cy="18" fill="none" r="16" stroke-dasharray="50 100" stroke-width="4"></circle>
+<circle class="stroke-blue-500" cx="18" cy="18" fill="none" r="16" stroke-dasharray="30 100" stroke-dashoffset="-50" stroke-width="4"></circle>
+<circle class="stroke-purple-500" cx="18" cy="18" fill="none" r="16" stroke-dasharray="20 100" stroke-dashoffset="-80" stroke-width="4"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-xs font-bold">Focus</span>
+<span class="text-[10px] text-[#638872]">Spread</span>
+</div>
+</div>
+<div class="flex-1 space-y-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-primary"></div>
+<span class="text-xs font-medium">Mathematics</span>
+</div>
+<span class="text-xs font-bold text-[#638872]">50%</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-blue-500"></div>
+<span class="text-xs font-medium">Biology</span>
+</div>
+<span class="text-xs font-bold text-[#638872]">30%</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-purple-500"></div>
+<span class="text-xs font-medium">History</span>
+</div>
+<span class="text-xs font-bold text-[#638872]">20%</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Recent Sessions List -->
+<div class="bg-white dark:bg-[#1a2e22] rounded-xl shadow-sm border border-[#f0f4f2] dark:border-white/10 overflow-hidden">
+<div class="p-4 border-b border-[#f0f4f2] dark:border-white/10 flex items-center justify-between">
+<h4 class="font-bold">Recent Sessions</h4>
+<button class="text-xs font-bold text-primary hover:bg-primary/5 px-2 py-1 rounded">View All</button>
+</div>
+<div class="divide-y divide-[#f0f4f2] dark:divide-white/10">
+<div class="p-4 flex items-center justify-between hover:bg-[#f9fafb] dark:hover:bg-white/5 transition-colors group">
+<div class="flex items-center gap-4">
+<div class="size-8 bg-primary/10 rounded flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-sm">functions</span>
+</div>
+<div>
+<p class="text-sm font-bold">Calculus Review</p>
+<p class="text-[10px] text-[#638872]">Oct 24 • 2:30 PM</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold">45m</p>
+<p class="text-[10px] text-primary font-bold">+120 XP</p>
+</div>
+</div>
+<div class="p-4 flex items-center justify-between hover:bg-[#f9fafb] dark:hover:bg-white/5 transition-colors group">
+<div class="flex items-center gap-4">
+<div class="size-8 bg-purple-100 dark:bg-purple-500/20 rounded flex items-center justify-center text-purple-600">
+<span class="material-symbols-outlined text-sm">history_edu</span>
+</div>
+<div>
+<p class="text-sm font-bold">History Essay</p>
+<p class="text-[10px] text-[#638872]">Oct 23 • 11:15 AM</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold">1h 20m</p>
+<p class="text-[10px] text-primary font-bold">+280 XP</p>
+</div>
+</div>
+<div class="p-4 flex items-center justify-between hover:bg-[#f9fafb] dark:hover:bg-white/5 transition-colors group">
+<div class="flex items-center gap-4">
+<div class="size-8 bg-blue-100 dark:bg-blue-500/20 rounded flex items-center justify-center text-blue-600">
+<span class="material-symbols-outlined text-sm">biotech</span>
+</div>
+<div>
+<p class="text-sm font-bold">Organic Chemistry</p>
+<p class="text-[10px] text-[#638872]">Oct 22 • 5:45 PM</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold">55m</p>
+<p class="text-[10px] text-primary font-bold">+150 XP</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

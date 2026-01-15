@@ -1,5 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
+
+import Sidebar from "../components/Sidebar";
 
 import "../styles/Dashboard.css";
 
@@ -16,7 +18,21 @@ export default function Dashboard() {
     date: "",
   });
 
-  async function fetchData() {}
+  //SYNC SECTIONS
+  async function fetchSections() {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.get("http://localhost:3000/study-sections", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setSections(res.data);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
 
   function handleMenuOpen() {
     setMenuOpen((prev) => !prev);
@@ -32,6 +48,7 @@ export default function Dashboard() {
     try {
       const res = await axios.post(
         "http://localhost:3000/study-sections",
+
         formData,
         {
           headers: {
@@ -82,6 +99,7 @@ export default function Dashboard() {
         }
       );
       console.log(res);
+      fetchSections();
     } catch (error) {
       console.error(error.message);
     }
@@ -89,6 +107,7 @@ export default function Dashboard() {
 
   return (
     <div>
+      <Sidebar />
       <h1>Welcome to Dashboard</h1>
       <h2>{user}</h2>
 
