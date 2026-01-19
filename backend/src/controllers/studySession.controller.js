@@ -2,6 +2,9 @@ import {
   addStudySection,
   listStudySection,
   deleteStudySection,
+  sectionsCount,
+  getTotalStudyMinutes,
+  getRecentSessions,
 } from "../services/studySession.service.js";
 
 export async function addStudySectionController(req, res) {
@@ -42,6 +45,30 @@ export async function deleteStudySectionController(req, res) {
     const updated = await deleteStudySection({ id });
 
     res.status(200).json(updated);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+}
+
+export async function dashboardSummaryController(req, res) {
+  try {
+    const userId = req.userId;
+
+    const summary = await sectionsCount({ userId });
+
+    res.status(200).json(summary);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+}
+
+export async function getTotalStudyMinutesController(req, res) {
+  try {
+    const userId = req.userId;
+
+    const studyMinutes = await getTotalStudyMinutes({ userId });
+
+    res.status(200).json(studyMinutes);
   } catch (error) {
     res.status(500).json(error.message);
   }

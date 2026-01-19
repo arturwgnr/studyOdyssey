@@ -55,3 +55,26 @@ export async function deleteStudySection({ id }) {
 
   return updated;
 }
+
+export async function sectionsCount({ userId }) {
+  const summary = await prisma.studySession.count({
+    where: { userId: userId },
+  });
+
+  return summary;
+}
+
+export async function getTotalStudyMinutes({ userId }) {
+  const studyMinutes = await prisma.studySession.aggregate({
+    _sum: {
+      duration: true,
+    },
+    where: { userId: userId },
+  });
+
+  if (studyMinutes._sum.duration === null) {
+    return 0;
+  }
+
+  return studyMinutes._sum.duration;
+}

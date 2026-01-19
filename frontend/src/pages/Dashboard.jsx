@@ -7,6 +7,9 @@ import "../styles/Dashboard.css";
 export default function Dashboard() {
   const user = localStorage.getItem("user");
 
+  //dashboard
+  const [studyTime, setStudyTime] = useState("");
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [showSections, setShowSections] = useState(false);
   const [sections, setSections] = useState([]);
@@ -37,15 +40,22 @@ export default function Dashboard() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   }
 
-  async function handleSubmit() {
+  async function handleSubmitSession() {
     const token = localStorage.getItem("token");
     try {
+      if (formData.duration <= 0) {
+        return window.alert("Did you study at all?");
+      }
+
       await axios.post("http://localhost:3000/study-sections", formData, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setMenuOpen(false);
       setFormData({ topic: "", duration: "", type: "practical", date: "" });
       if (showSections) fetchSections();
+
+      getStudyMinutes();
+      console.log(studyTime);
     } catch (error) {
       console.error(error.message);
     }
@@ -76,12 +86,54 @@ export default function Dashboard() {
     }
   }
 
+  //---------------------------------------------------------
+
+  //Summary Dashboard
+
+  async function showSummary() {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.get("http://localhost:3000/dashboard/summary", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(res.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function getStudyMinutes() {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.get("http://localhost:3000/dashboard/minutes", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const minutes = res.data;
+      const hours = Math.floor(minutes / 60);
+      const mins = minutes % 60;
+
+      const formatted = `${hours}h ${mins}min`;
+
+      setStudyTime(formatted);
+
+      console.log(studyTime);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
   return (
     <div className="dashboard-container">
       <Sidebar />
       <main className="dashboard-main">
         <header className="dashboard-header">
           <h1 className="dashboard-title">Welcome back, {user}</h1>
+          <p>{studyTime}</p>
           <button className="dashboard-btn" onClick={handleMenuOpen}>
             + Add Section
           </button>
@@ -135,7 +187,7 @@ export default function Dashboard() {
               />
 
               <div className="modal-actions">
-                <button className="dashboard-btn" onClick={handleSubmit}>
+                <button className="dashboard-btn" onClick={handleSubmitSession}>
                   Save
                 </button>
                 <button
@@ -184,6 +236,7 @@ export default function Dashboard() {
             </div>
           </div>
         )}
+        <button onClick={getStudyMinutes}>show summary</button>
       </main>
     </div>
   );
