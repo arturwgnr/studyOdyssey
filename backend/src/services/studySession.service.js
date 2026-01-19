@@ -78,3 +78,75 @@ export async function getTotalStudyMinutes({ userId }) {
 
   return studyMinutes._sum.duration;
 }
+
+export async function getRecentSessions({ userId }) {
+  const sessions = await prisma.studySession.findMany({
+    where: { userId: userId },
+    orderBy: { date: "desc" },
+    take: 5,
+  });
+
+  if (sessions.length === 0) {
+    return [];
+  }
+
+  return sessions;
+}
+
+export async function getLastSession({ userId }) {
+  const lastSession = await prisma.studySession.findMany({
+    where: { userId: userId },
+    orderBy: { date: "desc" },
+    take: 1,
+  });
+
+  if (lastSession.length === 0) {
+    return [];
+  }
+
+  return lastSession;
+}
+
+export async function weeklyReport({ userId }) {
+  const sevenDaysAgo = new Date();
+  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6); // inclui hoje
+
+  const sessions = await prisma.studySession.findMany({
+    where: {
+      userId,
+      date: {
+        gte: sevenDaysAgo,
+      },
+    },
+  });
+
+  // estrutura base: últimos 7 dias com 0 minutos
+  const week = [];
+  for (let i = 0; i < 7; i++) {
+    const day = new Date();
+    day.setDate(day.getDate() - i);
+
+    week.push({
+      date: day.toDateString(),
+      minutes: 0,
+    });
+  }
+
+  // soma minutos por dia
+  sessions.forEach((session) => {
+    const sessionDay = new Date(session.date).toDateString();
+
+    const day = week.find((d) => d.date === sessionDay);
+    if (day) {
+      day.minutes += session.duration;
+    }
+  });
+
+  // formata para o front
+  return week.reverse().map((d) => ({
+    day: new Date(d.date).toLocaleDateString("en-US", {
+      weekday: "short",
+    }),
+    minutes: d.minutes,
+  }));
+}

@@ -127,6 +127,40 @@ export default function Dashboard() {
     }
   }
 
+  async function getRecentSessions() {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.get(
+        "http://localhost:3000/dashboard/recent-sessions",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(res.data);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
+  async function getLastSession() {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.get(
+        "http://localhost:3000/dashboard/last-session",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(res.data);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
   return (
     <div className="dashboard-container">
       <Sidebar />
@@ -236,7 +270,7 @@ export default function Dashboard() {
             </div>
           </div>
         )}
-        <button onClick={getStudyMinutes}>show summary</button>
+        <button onClick={getLastSession}>show summary</button>
       </main>
     </div>
   );

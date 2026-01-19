@@ -5,6 +5,7 @@ import {
   sectionsCount,
   getTotalStudyMinutes,
   getRecentSessions,
+  getLastSession,
 } from "../services/studySession.service.js";
 
 export async function addStudySectionController(req, res) {
@@ -69,6 +70,28 @@ export async function getTotalStudyMinutesController(req, res) {
     const studyMinutes = await getTotalStudyMinutes({ userId });
 
     res.status(200).json(studyMinutes);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+}
+
+export async function getRecentSessionsController(req, res) {
+  try {
+    const userId = req.userId;
+    const recentSession = await getRecentSessions({ userId });
+
+    res.status(200).json(recentSession);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+}
+
+export async function getLastSessionController(req, res) {
+  try {
+    const userId = req.userId;
+    const lastSession = await getLastSession({ userId });
+
+    res.status(200).json(lastSession);
   } catch (error) {
     res.status(500).json(error.message);
   }

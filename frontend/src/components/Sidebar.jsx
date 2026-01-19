@@ -58,6 +58,7 @@ export default function Sidebar() {
       <nav className="sidebar-nav">
         <button className="nav-item active">Dashboard</button>
         <button className="nav-item">History</button>
+        <button className="nav-item">To-do</button>
         <button className="nav-item">Achievements</button>
         <button className="nav-item">Profile</button>
       </nav>

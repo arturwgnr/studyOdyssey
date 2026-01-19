@@ -16,6 +16,8 @@ import {
   deleteStudySectionController,
   dashboardSummaryController,
   getTotalStudyMinutesController,
+  getRecentSessionsController,
+  getLastSessionController,
 } from "./controllers/studySession.controller.js";
 
 const app = express();
@@ -39,6 +41,12 @@ app.post("/auth/login", userLoginController);
 //Study Section
 app.get("/dashboard/summary", authMiddleware, dashboardSummaryController);
 app.get("/dashboard/minutes", authMiddleware, getTotalStudyMinutesController);
+app.get(
+  "/dashboard/recent-sessions",
+  authMiddleware,
+  getRecentSessionsController
+);
+app.get("/dashboard/last-session", authMiddleware, getLastSessionController);
 app.get("/study-sections", authMiddleware, listStudySectionController);
 
 app.post("/study-sections", authMiddleware, addStudySectionController);
