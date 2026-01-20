@@ -6,6 +6,7 @@ import "../styles/Dashboard.css";
 
 export default function Dashboard() {
   const user = localStorage.getItem("user");
+  console.log(user);
 
   //dashboard
   const [studyTime, setStudyTime] = useState("");
@@ -177,9 +178,32 @@ export default function Dashboard() {
     }
   }
 
+  const TOTAL_DAYS = 112; // mantém exatamente como está no grid
+
+  const today = new Date();
+
+  const heatmapDates = Array.from({ length: TOTAL_DAYS }).map((_, index) => {
+    const d = new Date(today);
+    d.setDate(today.getDate() - (TOTAL_DAYS - 1 - index));
+    return d;
+  });
+
+  const monthLabels = [];
+  let lastMonth = null;
+
+  heatmapDates.forEach((date, index) => {
+    const month = date.toLocaleString("en-US", { month: "short" });
+
+    if (month !== lastMonth && index % 7 === 0) {
+      monthLabels.push({ month, index });
+      lastMonth = month;
+    }
+  });
+
   return (
     <div className="dashboard-container">
       <Sidebar />
+
       <main className="dashboard-main">
         <header className="dashboard-header">
           <div className="header-left">
@@ -205,7 +229,9 @@ export default function Dashboard() {
             <h2 className="streak-value">15 Days</h2>
             <div className="div-cards">
               <p className="streak-sub">Personal best: 24 days</p>
-              <span className="streak-link">View History</span>
+              <span onClick={handleShowSections} className="streak-link">
+                View History
+              </span>
             </div>
           </div>
 
@@ -243,26 +269,26 @@ export default function Dashboard() {
             {/* LEFT - HEATMAP */}
             <div className="activity-left">
               <div className="month-labels">
-                <span>Aug</span>
-                <span>Sep</span>
-                <span>Oct</span>
-                <span>Nov</span>
-                <span>Dec</span>
                 <span>Jan</span>
+                <span>Mar</span>
+                <span>Mai</span>
+                <span>Jul</span>
+                <span>Set</span>
+                <span>Nov</span>
+                <span>Dez</span>
               </div>
               <div className="activity-heatmap">
                 <div className="weekday-labels">
                   <span>Mon</span>
-                  <span></span>
+                  <span>Tue</span>
                   <span>Wed</span>
-                  <span></span>
+                  <span>Thu</span>
                   <span>Fri</span>
-                  <span></span>
-                  <span></span>
+                  <span>Sat</span>
+                  <span>Sun</span>
                 </div>
-
                 <div className="activity-grid">
-                  {Array.from({ length: 112 }).map((_, index) => {
+                  {Array.from({ length: 84 }).map((_, index) => {
                     const intensity = index % 5;
                     return (
                       <div
@@ -290,7 +316,7 @@ export default function Dashboard() {
             {/* RIGHT - STATS */}
             <div className="activity-right">
               <div className="stat-card">
-                <p className="stat-value">68h 58m</p>
+                <p className="stat-value">33h</p>
                 <p className="stat-label">Total Study Time</p>
               </div>
 
