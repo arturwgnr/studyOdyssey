@@ -150,3 +150,11 @@ export async function weeklyReport({ userId }) {
     minutes: d.minutes,
   }));
 }
+
+export async function userSummary({ userId }) {
+  const totalSessions = await sectionsCount({ userId });
+  const totalMinutes = await getTotalStudyMinutes({ userId });
+  const lastSession = await getLastSession({ userId });
+
+  return { totalSessions, totalMinutes, lastSession };
+}

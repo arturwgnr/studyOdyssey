@@ -90,6 +90,22 @@ export default function Dashboard() {
 
   //Summary Dashboard
 
+  async function getCompleteSummary() {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.get(
+        "http://localhost:3000/dashboard/complete-summary",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
+
+      console.log(res.data);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
   async function showSummary() {
     try {
       const token = localStorage.getItem("token");
@@ -136,7 +152,7 @@ export default function Dashboard() {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
       console.log(res.data);
     } catch (error) {
@@ -153,7 +169,7 @@ export default function Dashboard() {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
       console.log(res.data);
     } catch (error) {
@@ -166,18 +182,135 @@ export default function Dashboard() {
       <Sidebar />
       <main className="dashboard-main">
         <header className="dashboard-header">
-          <h1 className="dashboard-title">Welcome back, {user}</h1>
+          <div className="header-left">
+            <h1 className="dashboard-title">Welcome back, Artur! 👋</h1>
+            <p className="dashboard-subtitle">
+              You're 200 XP away from Level 15. Keep it up!
+            </p>
+          </div>
+
           <p>{studyTime}</p>
-          <button className="dashboard-btn" onClick={handleMenuOpen}>
-            + Add Section
-          </button>
-          <button
-            className="dashboard-btn secondary"
-            onClick={handleShowSections}
-          >
-            Show Sessions
-          </button>
+
+          <div className="right-area">
+            <button className="dashboard-btn" onClick={handleMenuOpen}>
+              + Add Section
+            </button>
+            <div className="header-date">📅 October 24, 2023</div>
+          </div>
         </header>
+
+        <div className="dashboard-cards">
+          <div className="streak-card">
+            <span className="streak-label">🔥 CURRENT STREAK</span>
+            <h2 className="streak-value">15 Days</h2>
+            <div className="div-cards">
+              <p className="streak-sub">Personal best: 24 days</p>
+              <span className="streak-link">View History</span>
+            </div>
+          </div>
+
+          <div className="level-card">
+            <div className="level-top">
+              <div className="level-badge">14</div>
+
+              <div className="level-info">
+                <p className="level-title">Level 14</p>
+                <p className="level-sub">Adept Scholar</p>
+              </div>
+
+              <div className="level-xp">
+                <p className="xp-value">2,450</p>
+                <span>/ 3,000 XP</span>
+                <p className="xp-percent">81.6% Complete</p>
+              </div>
+            </div>
+
+            <div className="progress-bar">
+              <div className="progress-fill" />
+            </div>
+
+            <p className="level-quote">
+              "The more that you read, the more things you will know."
+            </p>
+          </div>
+        </div>
+
+        {/* STUDY ACTIVITY */}
+        <div className="activity-section">
+          <h3 className="activity-title">Study Activity</h3>
+
+          <div className="activity-layout">
+            {/* LEFT - HEATMAP */}
+            <div className="activity-left">
+              <div className="month-labels">
+                <span>Aug</span>
+                <span>Sep</span>
+                <span>Oct</span>
+                <span>Nov</span>
+                <span>Dec</span>
+                <span>Jan</span>
+              </div>
+              <div className="activity-heatmap">
+                <div className="weekday-labels">
+                  <span>Mon</span>
+                  <span></span>
+                  <span>Wed</span>
+                  <span></span>
+                  <span>Fri</span>
+                  <span></span>
+                  <span></span>
+                </div>
+
+                <div className="activity-grid">
+                  {Array.from({ length: 112 }).map((_, index) => {
+                    const intensity = index % 5;
+                    return (
+                      <div
+                        key={index}
+                        className={`activity-cell level-${intensity}`}
+                      />
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="activity-legend">
+                <span>Less</span>
+                <div className="legend-scale">
+                  <div className="activity-cell level-0" />
+                  <div className="activity-cell level-1" />
+                  <div className="activity-cell level-2" />
+                  <div className="activity-cell level-3" />
+                  <div className="activity-cell level-4" />
+                </div>
+                <span>More</span>
+              </div>
+            </div>
+
+            {/* RIGHT - STATS */}
+            <div className="activity-right">
+              <div className="stat-card">
+                <p className="stat-value">68h 58m</p>
+                <p className="stat-label">Total Study Time</p>
+              </div>
+
+              <div className="stat-card">
+                <p className="stat-value">57</p>
+                <p className="stat-label">Sessions Completed</p>
+              </div>
+
+              <div className="stat-card">
+                <p className="stat-value">4,130</p>
+                <p className="stat-label">Total XP</p>
+              </div>
+
+              <div className="stat-card">
+                <p className="stat-value">100%</p>
+                <p className="stat-label">Daily Goal</p>
+              </div>
+            </div>
+          </div>
+        </div>
 
         {menuOpen && (
           <div className="modal-overlay">
@@ -270,7 +403,7 @@ export default function Dashboard() {
             </div>
           </div>
         )}
-        <button onClick={getLastSession}>show summary</button>
+        <button onClick={handleShowSections}>show summary</button>
       </main>
     </div>
   );

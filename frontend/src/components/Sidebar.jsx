@@ -4,6 +4,7 @@ import axios from "axios";
 
 export default function Sidebar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeItem, setActiveItem] = useState("Dashboard");
 
   const [formData, setFormData] = useState({
     topic: "",
@@ -31,7 +32,7 @@ export default function Sidebar() {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       console.log(res);
@@ -56,17 +57,51 @@ export default function Sidebar() {
       </button>
 
       <nav className="sidebar-nav">
-        <button className="nav-item active">Dashboard</button>
-        <button className="nav-item">History</button>
-        <button className="nav-item">To-do</button>
-        <button className="nav-item">Achievements</button>
-        <button className="nav-item">Profile</button>
+        <button
+          className={`nav-item ${activeItem === "Dashboard" ? "active" : ""}`}
+          onClick={() => setActiveItem("Dashboard")}
+        >
+          Dashboard
+        </button>
+
+        <button
+          className={`nav-item ${activeItem === "History" ? "active" : ""}`}
+          onClick={() => setActiveItem("History")}
+        >
+          History
+        </button>
+
+        <button
+          className={`nav-item ${activeItem === "To-do" ? "active" : ""}`}
+          onClick={() => setActiveItem("To-do")}
+        >
+          To-do
+        </button>
+
+        <button
+          className={`nav-item ${activeItem === "Achievements" ? "active" : ""}`}
+          onClick={() => setActiveItem("Achievements")}
+        >
+          Achievements
+        </button>
+
+        <button
+          className={`nav-item ${activeItem === "Profile" ? "active" : ""}`}
+          onClick={() => setActiveItem("Profile")}
+        >
+          Profile
+        </button>
       </nav>
 
       <div className="sidebar-footer">
         <div className="user-info">
-          <p className="user-name">Learner</p>
-          <p className="user-status">Pro Member</p>
+          <div className="user-picture">
+            <p>AW</p>
+          </div>
+          <div className="user-data">
+            <p className="user-status">Learner</p>
+            <p className="user-sub">Pro Member</p>
+          </div>
         </div>
 
         {menuOpen && (

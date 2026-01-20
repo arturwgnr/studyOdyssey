@@ -1,103 +1,210 @@
-/* Container principal */
+/* ===== SIDEBAR CONTAINER ===== */
 .sidebar {
-  width: 260px;
+  width: 220px;
   height: 100vh;
   background: #ffffff;
-  border-right: 1px solid #e5e5e5;
-  padding: 24px;
+  border-right: 1px solid #e6e6e6;
+  padding: 24px 20px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
 
-/* Header */
+/* ===== HEADER ===== */
 .sidebar-header {
-  margin-bottom: 20px;
+  margin-bottom: 0px;
 }
 
 .sidebar-title {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 700;
-  color: #2c2c2c;
+  color: #111827;
 }
 
 .sidebar-subtitle {
-  font-size: 14px;
-  color: #6f6f6f;
-  margin-top: -4px;
+  font-size: 13px;
+  color: #6b7280;
+  margin-top: 2px;
 }
 
-/* Divider */
+/* ===== DIVIDER ===== */
 .sidebar-divider {
   width: 100%;
   height: 1px;
-  background: #e5e5e5;
+  background: #e5e7eb;
   margin: 20px 0;
 }
 
-/* Add button */
+/* ===== ADD SESSION BUTTON ===== */
 .sidebar-add-btn {
   width: 100%;
-  padding: 12px;
-  background: #4caf50;
+  padding: 12px 14px;
+  background: #10b981;
   color: white;
   border: none;
-  border-radius: 6px;
-  font-size: 15px;
+  border-radius: 10px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .sidebar-add-btn:hover {
-  background: #43a047;
+  background: #059669;
 }
 
-/* Navigation */
+/* ===== NAVIGATION ===== */
 .sidebar-nav {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 6px;
 }
 
 .nav-item {
+  position: relative;
   background: none;
   border: none;
   text-align: left;
-  padding: 10px 0;
-  font-size: 16px;
-  color: #444;
+  padding: 10px 12px;
+  font-size: 14px;
+  color: #5c6066;
   cursor: pointer;
-  transition: 0.2s;
+  border-radius: 10px;
+  transition:
+    background 0.2s,
+    color 0.2s;
 }
 
 .nav-item:hover {
-  color: #2c7a7b;
+  background: #f3f4f6;
+  color: #262627;
 }
 
+/* ACTIVE STATE (igual à imagem) */
 .nav-item.active {
-  color: #2c7a7b;
+  background: #e6f7f1;
+  color: #047857;
   font-weight: 600;
 }
 
-/* Footer */
+/* BARRA VERDE LATERAL */
+.nav-item.active::before {
+  content: "";
+  position: absolute;
+  left: 0px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 70%;
+  background: #10b981;
+  border-radius: 9px;
+}
+
+/* ===== FOOTER ===== */
 .sidebar-footer {
   margin-top: auto;
-  padding-top: 20px;
-  border-top: 1px solid #e5e5e5;
+  padding-top: 12px;
+  border-top: 1px solid #e5e7eb;
 }
 
+/* Container geral */
 .user-info {
-  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.user-name {
-  font-size: 15px;
-  font-weight: 600;
-  color: #333;
+/* Avatar */
+.user-picture {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #10b981;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+/* Dados */
+.user-data {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
 }
 
 .user-status {
-  font-size: 13px;
-  color: #4caf50;
+  margin-bottom: 0px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.user-sub {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* ===== MODAL (mantido, só refinado visualmente) ===== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal-box {
+  background: white;
+  padding: 24px;
+  border-radius: 14px;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.modal-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.modal-input,
+.modal-select {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.dashboard-btn {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  background: #10b981;
+  color: white;
+}
+
+.dashboard-btn.secondary {
+  background: #e5e7eb;
+  color: #111827;
 }
