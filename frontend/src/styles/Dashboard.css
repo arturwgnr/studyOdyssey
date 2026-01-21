@@ -327,6 +327,15 @@
   padding-right: 4px;
 }
 
+.week-card {
+  transition: 0.3s ease;
+}
+
+.week-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  transform: translateY(-2px);
+}
+
 /* MONTHS */
 .month-labels {
   margin-left: 20px;
@@ -346,6 +355,20 @@
   grid-template-columns: repeat(12, 14px); /* fixa 12 colunas */
   grid-template-rows: repeat(7, 14px);
   gap: 6px;
+}
+
+.week-bar-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+}
+
+.week-bar-wrapper span {
+  margin-top: 6px;
+  font-size: 11px;
+  color: #6b7280;
 }
 
 /* CELL (ligeiramente menor) */
@@ -465,6 +488,7 @@
   border: 1px solid #e5e7eb;
   border-radius: 16px;
   padding: 20px 24px;
+  width: fit-content;
 
   display: flex;
   flex-direction: column;
@@ -496,4 +520,27 @@
 .last-section p {
   font-size: 14px;
   color: #9ca3af;
+}
+.week-bars {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between; /* ESSENCIAL */
+  height: 120px;
+  width: 100%;
+}
+.week-bar {
+  width: 14px;
+  background: #d1d5db;
+  border-radius: 6px;
+}
+
+.week-bar.active {
+  background: #22c55e;
+}
+
+.week-divider {
+  width: 100%;
+  height: 1px;
+  background: #aaaaaa57;
+  margin: 16px 0 12px;
 }

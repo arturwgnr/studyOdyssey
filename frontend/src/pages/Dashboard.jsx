@@ -12,6 +12,9 @@ export default function Dashboard() {
   const [lastSession, setLastSession] = useState(null);
 
   const [completeSummary, setCompleteSummary] = useState(null);
+  const [weekReport, setWeekReport] = useState([]);
+  const [totalWeek, setTotalWeek] = useState();
+  const [averageWeek, setAverageWeek] = useState();
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [showSections, setShowSections] = useState(false);
@@ -149,23 +152,6 @@ export default function Dashboard() {
     }
   }
 
-  async function getRecentSessions() {
-    try {
-      const token = localStorage.getItem("token");
-      const res = await axios.get(
-        "http://localhost:3000/dashboard/recent-sessions",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      console.log(res.data);
-    } catch (error) {
-      console.error(error.message);
-    }
-  }
-
   const TOTAL_DAYS = 112; // mantém exatamente como está no grid
 
   const today = new Date();
@@ -188,10 +174,38 @@ export default function Dashboard() {
     }
   });
 
+  async function getWeekReport() {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.get(
+        "http://localhost:3000/dashboard/week-report",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      const data = res.data;
+      setWeekReport(data);
+
+      const totalWeekMinutes = data.reduce((acc, day) => acc + day.minutes, 0);
+
+      const dailyAverage = Math.round(totalWeekMinutes / 7);
+
+      setTotalWeek(totalWeekMinutes);
+      setAverageWeek(dailyAverage);
+
+      console.log(totalWeek, averageWeek);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
   //Reload Content
   useEffect(() => {
     getCompleteSummary();
     getStudyMinutes();
+    getWeekReport();
   }, []);
 
   return (
@@ -200,14 +214,13 @@ export default function Dashboard() {
 
       <main className="dashboard-main">
         <header className="dashboard-header">
+          <button onClick={getWeekReport}>TEST LOG</button>
           <div className="header-left">
             <h1 className="dashboard-title">Welcome back, King Artur! 👋</h1>
             <p className="dashboard-subtitle">
               You're 200 XP away from Level 15. Keep it up!
             </p>
           </div>
-
-          <p>{studyTime}</p>
 
           <div className="right-area">
             <button className="dashboard-btn" onClick={handleMenuOpen}>
@@ -311,9 +324,7 @@ export default function Dashboard() {
             <div className="activity-right">
               <div className="stat-card">
                 <p className="stat-value">
-                  {completeSummary
-                    ? Math.round(completeSummary.totalMinutes / 60) + "h"
-                    : "--"}
+                  {completeSummary ? studyTime : "--"}
                 </p>
                 <p className="stat-label">Total Study Time</p>
               </div>
@@ -395,16 +406,65 @@ export default function Dashboard() {
         )}
 
         <div className="last-section">
-          {lastSession ? (
-            <div className="last-card">
-              <h3 className="activity-title">Last Session</h3>
-              <h4 className="last-topic">{lastSession.topic}</h4>
-              <p>{lastSession.type}</p>
-              <p>{lastSession.duration} min</p>
+          <div className="last-grid">
+            {/* WEEKLY CARD */}
+            <div className="week-card">
+              <h3 className="activity-title">This Week</h3>
+
+              <div className="week-bars">
+                {weekReport.map((d, i) => {
+                  const max = Math.max(...weekReport.map((w) => w.minutes));
+                  const height = max ? (d.minutes / max) * 100 : 0;
+                  const isToday =
+                    d.day ===
+                    new Date().toLocaleDateString("en-US", {
+                      weekday: "short",
+                    });
+
+                  return (
+                    <div key={i} className="week-bar-wrapper">
+                      <div
+                        className={`week-bar ${isToday ? "active" : ""}`}
+                        style={{ height: `${height}%` }}
+                      />
+                      <span>{d.day}</span>
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="week-divider" />
+
+              <div className="week-stats">
+                <div>
+                  <strong>{totalWeek} min</strong>
+                  <p>Total this week</p>
+                </div>
+                <div>
+                  <strong>{averageWeek} min</strong>
+                  <p>Daily average</p>
+                </div>
+              </div>
             </div>
-          ) : (
-            <p>No sessions yet...</p>
-          )}
+
+            {/* LAST SESSION */}
+            {lastSession ? (
+              <div className="last-card">
+                <h3 className="activity-title">Last Session</h3>
+                <h4 className="last-topic">{lastSession.topic}</h4>
+                <p>{lastSession.type}</p>
+                <p>{lastSession.duration} min</p>
+                <p>
+                  {new Date(lastSession.date).toLocaleDateString("en-IE", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })}
+                </p>
+              </div>
+            ) : (
+              <p>No sessions yet...</p>
+            )}
+          </div>
         </div>
 
         {showSections && (

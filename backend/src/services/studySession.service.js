@@ -104,7 +104,8 @@ export async function getLastSession({ userId }) {
 
 export async function weeklyReport({ userId }) {
   const sevenDaysAgo = new Date();
-  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6); // inclui hoje
+  sevenDaysAgo.setHours(0, 0, 0, 0);
+  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
 
   const sessions = await prisma.studySession.findMany({
     where: {
