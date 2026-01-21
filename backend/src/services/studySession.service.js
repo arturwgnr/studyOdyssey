@@ -94,17 +94,12 @@ export async function getRecentSessions({ userId }) {
 }
 
 export async function getLastSession({ userId }) {
-  const lastSession = await prisma.studySession.findMany({
-    where: { userId: userId },
+  const session = await prisma.studySession.findFirst({
+    where: { userId },
     orderBy: { date: "desc" },
-    take: 1,
   });
 
-  if (lastSession.length === 0) {
-    return [];
-  }
-
-  return lastSession;
+  return session ?? null;
 }
 
 export async function weeklyReport({ userId }) {
@@ -156,5 +151,9 @@ export async function userSummary({ userId }) {
   const totalMinutes = await getTotalStudyMinutes({ userId });
   const lastSession = await getLastSession({ userId });
 
-  return { totalSessions, totalMinutes, lastSession };
+  return {
+    totalSessions,
+    totalMinutes,
+    lastSession,
+  };
 }

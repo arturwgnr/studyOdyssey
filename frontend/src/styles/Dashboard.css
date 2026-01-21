@@ -451,3 +451,49 @@
   color: #6b7280;
   margin-top: 4px;
 }
+
+/* =========================
+   LAST SESSION
+========================= */
+
+.last-section {
+  margin-top: 32px;
+}
+
+.last-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 20px 24px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.last-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  transform: translateY(-2px);
+}
+
+.last-topic {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.last-card p {
+  font-size: 14px;
+  color: #6b7280;
+  text-transform: capitalize;
+}
+
+/* Empty state */
+.last-section p {
+  font-size: 14px;
+  color: #9ca3af;
+}

@@ -6,7 +6,6 @@ import "../styles/Dashboard.css";
 
 export default function Dashboard() {
   const user = localStorage.getItem("user");
-  console.log(user);
 
   //dashboard
   const [studyTime, setStudyTime] = useState("");
@@ -106,7 +105,7 @@ export default function Dashboard() {
         },
       );
 
-      console.log(res.data);
+      setLastSession(res.data.lastSession);
       setCompleteSummary(res.data);
     } catch (error) {
       console.error(error.message);
@@ -145,8 +144,6 @@ export default function Dashboard() {
       const formatted = `${hours}h ${mins}min`;
 
       setStudyTime(formatted);
-
-      console.log(studyTime);
     } catch (error) {
       console.error(error.message);
     }
@@ -164,24 +161,6 @@ export default function Dashboard() {
         },
       );
       console.log(res.data);
-    } catch (error) {
-      console.error(error.message);
-    }
-  }
-
-  async function getLastSession() {
-    try {
-      const token = localStorage.getItem("token");
-      const res = await axios.get(
-        "http://localhost:3000/dashboard/last-session",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      const session = res.data.lastSession?.[0] ?? null;
-      setLastSession(session);
     } catch (error) {
       console.error(error.message);
     }
@@ -213,7 +192,6 @@ export default function Dashboard() {
   useEffect(() => {
     getCompleteSummary();
     getStudyMinutes();
-    getLastSession();
   }, []);
 
   return (
@@ -417,16 +395,15 @@ export default function Dashboard() {
         )}
 
         <div className="last-section">
-          <h3 className="activity-title">Last Session</h3>
-
           {lastSession ? (
             <div className="last-card">
+              <h3 className="activity-title">Last Session</h3>
               <h4 className="last-topic">{lastSession.topic}</h4>
               <p>{lastSession.type}</p>
               <p>{lastSession.duration} min</p>
             </div>
           ) : (
-            <p>Loading last session...</p>
+            <p>No sessions yet...</p>
           )}
         </div>
 
@@ -465,7 +442,7 @@ export default function Dashboard() {
             </div>
           </div>
         )}
-        <button onClick={handleShowSections}>show summary</button>
+        <button onClick={getCompleteSummary}>show summary</button>
       </main>
     </div>
   );
