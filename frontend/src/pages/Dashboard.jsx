@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 import Sidebar from "../components/Sidebar";
@@ -10,6 +10,9 @@ export default function Dashboard() {
 
   //dashboard
   const [studyTime, setStudyTime] = useState("");
+  const [lastSession, setLastSession] = useState(null);
+
+  const [completeSummary, setCompleteSummary] = useState(null);
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [showSections, setShowSections] = useState(false);
@@ -56,6 +59,7 @@ export default function Dashboard() {
       if (showSections) fetchSections();
 
       getStudyMinutes();
+      getCompleteSummary();
       console.log(studyTime);
     } catch (error) {
       console.error(error.message);
@@ -82,6 +86,7 @@ export default function Dashboard() {
         headers: { Authorization: `Bearer ${token}` },
       });
       fetchSections();
+      getCompleteSummary();
     } catch (error) {
       console.error(error.message);
     }
@@ -102,10 +107,13 @@ export default function Dashboard() {
       );
 
       console.log(res.data);
+      setCompleteSummary(res.data);
     } catch (error) {
       console.error(error.message);
     }
   }
+
+  console.log(completeSummary);
 
   async function showSummary() {
     try {
@@ -172,7 +180,8 @@ export default function Dashboard() {
           },
         },
       );
-      console.log(res.data);
+      const session = res.data.lastSession?.[0] ?? null;
+      setLastSession(session);
     } catch (error) {
       console.error(error.message);
     }
@@ -200,6 +209,13 @@ export default function Dashboard() {
     }
   });
 
+  //Reload Content
+  useEffect(() => {
+    getCompleteSummary();
+    getStudyMinutes();
+    getLastSession();
+  }, []);
+
   return (
     <div className="dashboard-container">
       <Sidebar />
@@ -207,7 +223,7 @@ export default function Dashboard() {
       <main className="dashboard-main">
         <header className="dashboard-header">
           <div className="header-left">
-            <h1 className="dashboard-title">Welcome back, Artur! 👋</h1>
+            <h1 className="dashboard-title">Welcome back, King Artur! 👋</h1>
             <p className="dashboard-subtitle">
               You're 200 XP away from Level 15. Keep it up!
             </p>
@@ -316,23 +332,29 @@ export default function Dashboard() {
             {/* RIGHT - STATS */}
             <div className="activity-right">
               <div className="stat-card">
-                <p className="stat-value">33h</p>
+                <p className="stat-value">
+                  {completeSummary
+                    ? Math.round(completeSummary.totalMinutes / 60) + "h"
+                    : "--"}
+                </p>
                 <p className="stat-label">Total Study Time</p>
               </div>
 
               <div className="stat-card">
-                <p className="stat-value">57</p>
+                <p className="stat-value">
+                  {completeSummary?.totalSessions ?? "--"}
+                </p>
                 <p className="stat-label">Sessions Completed</p>
-              </div>
-
-              <div className="stat-card">
-                <p className="stat-value">4,130</p>
-                <p className="stat-label">Total XP</p>
               </div>
 
               <div className="stat-card">
                 <p className="stat-value">100%</p>
                 <p className="stat-label">Daily Goal</p>
+              </div>
+
+              <div className="stat-card">
+                <p className="stat-value">1</p>
+                <p className="stat-label">Opened Projects</p>
               </div>
             </div>
           </div>
@@ -393,6 +415,20 @@ export default function Dashboard() {
             </div>
           </div>
         )}
+
+        <div className="last-section">
+          <h3 className="activity-title">Last Session</h3>
+
+          {lastSession ? (
+            <div className="last-card">
+              <h4 className="last-topic">{lastSession.topic}</h4>
+              <p>{lastSession.type}</p>
+              <p>{lastSession.duration} min</p>
+            </div>
+          ) : (
+            <p>Loading last session...</p>
+          )}
+        </div>
 
         {showSections && (
           <div className="modal-overlay">

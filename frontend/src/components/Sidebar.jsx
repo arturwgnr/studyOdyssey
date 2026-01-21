@@ -46,7 +46,10 @@ export default function Sidebar() {
   return (
     <aside className="sidebar">
       <div className="sidebar-header">
-        <h1 className="sidebar-title">Study Odyssey</h1>
+        <div className="logo-div">
+          <p className="logo">ᨒ</p>
+          <h1 className="sidebar-title">Study Odyssey</h1>
+        </div>
         <p className="sidebar-subtitle">Track your learning</p>
       </div>
 

@@ -423,6 +423,7 @@
 
 /* STAT CARD */
 .stat-card {
+  cursor: pointer;
   background: #ffffff;
   border-radius: 14px;
   padding: 16px;
@@ -433,6 +434,10 @@
 .stat-card:hover {
   box-shadow: 1px 1px 30px rgba(0, 0, 0, 0.253);
   transform: scale(1.01);
+}
+
+.stat-card:active {
+  background-color: #f1f1f1;
 }
 
 .stat-value {
