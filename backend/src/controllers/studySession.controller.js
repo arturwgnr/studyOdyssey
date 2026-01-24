@@ -8,6 +8,7 @@ import {
   getLastSession,
   userSummary,
   weeklyReport,
+  topicDistribution,
 } from "../services/studySession.service.js";
 
 export async function addStudySectionController(req, res) {
@@ -118,6 +119,17 @@ export async function weeklyReportController(req, res) {
     const weekReport = await weeklyReport({ userId });
 
     res.status(200).json(weekReport);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+}
+
+export async function topicDistributionController(req, res) {
+  try {
+    const userId = req.userId;
+    const sessions = await topicDistribution({ userId });
+
+    res.status(200).json(sessions);
   } catch (error) {
     res.status(500).json(error.message);
   }

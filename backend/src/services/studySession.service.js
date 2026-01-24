@@ -158,3 +158,29 @@ export async function userSummary({ userId }) {
     lastSession,
   };
 }
+
+export async function topicDistribution({ userId }) {
+  const sessions = await prisma.studySession.findMany({
+    where: { userId },
+    select: {
+      topic: true,
+      duration: true,
+    },
+  });
+
+  const distribution = {};
+
+  sessions.forEach((session) => {
+    const topic = session.topic;
+
+    if (!distribution[topic]) {
+      distribution[topic] = 0;
+    }
+    distribution[topic] += session.duration;
+  });
+
+  return Object.entries(distribution).map(([topic, minutes]) => ({
+    topic,
+    minutes,
+  }));
+}

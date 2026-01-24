@@ -115,8 +115,6 @@ export default function Dashboard() {
     }
   }
 
-  console.log(completeSummary);
-
   async function showSummary() {
     try {
       const token = localStorage.getItem("token");
