@@ -1,8 +1,38 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
+
 import Sidebar from "../components/Sidebar";
 import "../styles/Dashboard.css";
+
+const COLORS = ["#22c55e", "#3b82f6", "#a855f7", "#f97316", "#ef4444"];
+
+function TopicDistributionChart({ data }) {
+  if (!data || data.length === 0) {
+    return <p>No data yet...</p>;
+  }
+
+  return (
+    <ResponsiveContainer width="100%" height={220}>
+      <PieChart>
+        <Pie
+          data={data}
+          dataKey="minutes"
+          nameKey="topic"
+          innerRadius={60}
+          outerRadius={90}
+          paddingAngle={4}
+        >
+          {data.map((_, index) => (
+            <Cell key={index} fill={COLORS[index % COLORS.length]} />
+          ))}
+        </Pie>
+        <Tooltip />
+      </PieChart>
+    </ResponsiveContainer>
+  );
+}
 
 export default function Dashboard() {
   const user = localStorage.getItem("user");
@@ -13,6 +43,7 @@ export default function Dashboard() {
 
   const [completeSummary, setCompleteSummary] = useState(null);
   const [weekReport, setWeekReport] = useState([]);
+  const [topicDistribution, setTopicDistribution] = useState([]);
   const [totalWeek, setTotalWeek] = useState();
   const [averageWeek, setAverageWeek] = useState();
 
@@ -115,6 +146,24 @@ export default function Dashboard() {
     }
   }
 
+  async function getTopicDistribution() {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.get(
+        "http://localhost:3000/dashboard/topic-distribution",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      setTopicDistribution(res.data);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
   async function showSummary() {
     try {
       const token = localStorage.getItem("token");
@@ -199,11 +248,20 @@ export default function Dashboard() {
     }
   }
 
+  //PIE CHART
+
+  function topicDistributionChart({ data }) {
+    if (!data || data.length === 0) {
+      return <p>No data yet...</p>;
+    }
+  }
+
   //Reload Content
   useEffect(() => {
     getCompleteSummary();
     getStudyMinutes();
     getWeekReport();
+    getTopicDistribution();
   }, []);
 
   return (
@@ -212,7 +270,7 @@ export default function Dashboard() {
 
       <main className="dashboard-main">
         <header className="dashboard-header">
-          <button onClick={getWeekReport}>TEST LOG</button>
+          <button onClick={getTopicDistribution}>TEST LOG</button>
           <div className="header-left">
             <h1 className="dashboard-title">Welcome back, King Artur! 👋</h1>
             <p className="dashboard-subtitle">
@@ -462,6 +520,10 @@ export default function Dashboard() {
             ) : (
               <p>No sessions yet...</p>
             )}
+            <div className="stat-card">
+              <p className="stat-label">Topic Distribution</p>
+              <TopicDistributionChart data={topicDistribution} />
+            </div>
           </div>
         </div>
 
