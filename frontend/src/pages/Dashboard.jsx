@@ -86,6 +86,16 @@ export default function Dashboard() {
     }
   }
 
+  function minutesToHours(minutes) {
+    const h = Math.floor(minutes / 60);
+    const m = minutes % 60;
+
+    if (h === 0) return `${m} min`;
+    if (m === 0) return `${h}h`;
+
+    return `${h}h ${m}min`;
+  }
+
   function handleMenuOpen() {
     setMenuOpen((prev) => !prev);
   }
@@ -372,11 +382,11 @@ export default function Dashboard() {
         </div>
 
         {/* STUDY ACTIVITY */}
-        <div className="activity-section">
-          <h3 className="activity-title">Study Activity</h3>
+        <div className="activity-wrapper">
+          {/* CARD 1 - STUDY ACTIVITY (HEATMAP) */}
+          <div className="activity-section">
+            <h3 className="activity-title">Study Activity</h3>
 
-          <div className="activity-layout">
-            {/* LEFT - HEATMAP */}
             <div className="activity-left">
               <div className="month-labels">
                 <span>Jan</span>
@@ -387,6 +397,7 @@ export default function Dashboard() {
                 <span>Nov</span>
                 <span>Dez</span>
               </div>
+
               <div className="activity-heatmap">
                 <div className="weekday-labels">
                   <span>Mon</span>
@@ -397,6 +408,7 @@ export default function Dashboard() {
                   <span>Sat</span>
                   <span>Sun</span>
                 </div>
+
                 <div className="activity-grid">
                   {Array.from({ length: 84 }).map((_, index) => {
                     const intensity = index % 5;
@@ -422,8 +434,12 @@ export default function Dashboard() {
                 <span>More</span>
               </div>
             </div>
+          </div>
 
-            {/* RIGHT - STATS */}
+          {/* CARD 2 - STATS */}
+          <div className="activity-section">
+            <h3 className="activity-title">Overview</h3>
+
             <div className="activity-right">
               <div className="stat-card">
                 <p className="stat-value">
@@ -535,6 +551,7 @@ export default function Dashboard() {
                   );
                 })}
               </div>
+
               <div className="week-divider" />
 
               <div className="week-stats">
@@ -550,23 +567,59 @@ export default function Dashboard() {
             </div>
 
             {/* LAST SESSION */}
-            {lastSession ? (
-              <div className="last-card">
-                <h3 className="activity-title">Last Session</h3>
-                <h4 className="last-topic">{lastSession.topic}</h4>
-                <p>{lastSession.type}</p>
-                <p>{lastSession.duration} min</p>
-                <p>
-                  {new Date(lastSession.date).toLocaleDateString("en-IE", {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
-                  })}
+            <div className="middle-stack">
+              {/* LAST SESSION */}
+              {lastSession ? (
+                <div className="last-card half">
+                  <h3 className="activity-title">Last Session</h3>
+
+                  <div className="last-main">
+                    <h4 className="last-topic">{lastSession.topic}</h4>
+                    <span className="last-type">{lastSession.type}</span>
+                  </div>
+
+                  <div className="last-meta">
+                    <div>
+                      <span className="meta-label">Duration: </span>
+                      <span className="meta-value">
+                        {lastSession.duration} min
+                      </span>
+                    </div>
+
+                    <div>
+                      <span className="meta-label">Date: </span>
+                      <span className="meta-value">
+                        {new Date(lastSession.date).toLocaleDateString(
+                          "en-IE",
+                          {
+                            day: "2-digit",
+                            month: "short",
+                            year: "numeric",
+                          },
+                        )}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="last-card half">No sessions yet…</div>
+              )}
+
+              {/* DAILY AVERAGE */}
+              <div className="stat-card half">
+                <p className="stat-value">
+                  {averageWeek ? minutesToHours(averageWeek) : "--"}
+                </p>
+                <p
+                  style={{ color: "#10b77f", fontWeight: "bold" }}
+                  className="stat-label"
+                >
+                  Daily Average
                 </p>
               </div>
-            ) : (
-              <p>No sessions yet...</p>
-            )}
+            </div>
+
+            {/* TOPIC DISTRIBUTION */}
             <div className="stat-card">
               <p className="stat-label">Topic Distribution</p>
               <TopicDistributionChart data={topicDistribution} />
@@ -625,7 +678,6 @@ export default function Dashboard() {
             </div>
           </div>
         )}
-        <button onClick={getCompleteSummary}>show summary</button>
       </main>
     </div>
   );
