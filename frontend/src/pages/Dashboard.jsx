@@ -14,28 +14,43 @@ function TopicDistributionChart({ data }) {
   }
 
   return (
-    <ResponsiveContainer width="100%" height={220}>
-      <PieChart>
-        <Pie
-          data={data}
-          dataKey="minutes"
-          nameKey="topic"
-          innerRadius={60}
-          outerRadius={90}
-          paddingAngle={4}
-        >
-          {data.map((_, index) => (
-            <Cell key={index} fill={COLORS[index % COLORS.length]} />
-          ))}
-        </Pie>
-        <Tooltip />
-      </PieChart>
-    </ResponsiveContainer>
+    <div className="topic-chart">
+      <ResponsiveContainer width="100%" height={220}>
+        <PieChart>
+          <Pie
+            data={data}
+            dataKey="minutes"
+            nameKey="topic"
+            innerRadius={60}
+            outerRadius={90}
+            paddingAngle={4}
+          >
+            {data.map((_, index) => (
+              <Cell key={index} fill={COLORS[index % COLORS.length]} />
+            ))}
+          </Pie>
+          <Tooltip />
+        </PieChart>
+      </ResponsiveContainer>
+
+      {/* LEGENDA */}
+      <div className="topic-legend">
+        {data.map((item, index) => (
+          <div key={item.topic} className="legend-item">
+            <span
+              className="legend-color"
+              style={{ backgroundColor: COLORS[index % COLORS.length] }}
+            />
+            <span className="legend-label">{item.topic}</span>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 
 export default function Dashboard() {
-  const user = localStorage.getItem("user");
+  //USE EFFECT
 
   //dashboard
   const [studyTime, setStudyTime] = useState("");
@@ -46,6 +61,8 @@ export default function Dashboard() {
   const [topicDistribution, setTopicDistribution] = useState([]);
   const [totalWeek, setTotalWeek] = useState();
   const [averageWeek, setAverageWeek] = useState();
+
+  const [editingId, setEditingId] = useState(null);
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [showSections, setShowSections] = useState(false);
@@ -84,16 +101,40 @@ export default function Dashboard() {
         return window.alert("Did you study at all?");
       }
 
-      await axios.post("http://localhost:3000/study-sections", formData, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setMenuOpen(false);
-      setFormData({ topic: "", duration: "", type: "practical", date: "" });
-      if (showSections) fetchSections();
+      if (editingId) {
+        await axios.put(
+          `http://localhost:3000/study-sections/${editingId}`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
 
-      getStudyMinutes();
-      getCompleteSummary();
-      console.log(studyTime);
+        setEditingId(null);
+        setMenuOpen(false);
+        await Promise.all([
+          getCompleteSummary(),
+          getStudyMinutes(),
+          getWeekReport(),
+          getTopicDistribution(),
+        ]);
+      } else {
+        await axios.post("http://localhost:3000/study-sections", formData, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setMenuOpen(false);
+        setFormData({ topic: "", duration: "", type: "practical", date: "" });
+        if (showSections) fetchSections();
+
+        await Promise.all([
+          getCompleteSummary(),
+          getStudyMinutes(),
+          getWeekReport(),
+          getTopicDistribution(),
+        ]);
+      }
     } catch (error) {
       console.error(error.message);
     }
@@ -118,8 +159,15 @@ export default function Dashboard() {
       await axios.delete(`http://localhost:3000/study-sections/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      fetchSections();
-      getCompleteSummary();
+
+      setSections((prev) => prev.filter((s) => s.id !== id));
+
+      await Promise.all([
+        getCompleteSummary(),
+        getStudyMinutes(),
+        getWeekReport(),
+        getTopicDistribution(),
+      ]);
     } catch (error) {
       console.error(error.message);
     }
@@ -249,7 +297,6 @@ export default function Dashboard() {
   }
 
   //PIE CHART
-
   function topicDistributionChart({ data }) {
     if (!data || data.length === 0) {
       return <p>No data yet...</p>;
@@ -549,6 +596,22 @@ export default function Dashboard() {
                     onClick={() => handleDeleteSection(s.id)}
                   >
                     ×
+                  </button>
+                  <button
+                    onClick={() => {
+                      setEditingId(s.id);
+                      setFormData({
+                        topic: s.topic,
+                        duration: s.duration,
+                        type: s.type,
+                        date: s.date.split("T")[0],
+                      });
+                      setMenuOpen(true);
+                      setShowSections(false);
+                    }}
+                    className="edit-btn"
+                  >
+                    edit
                   </button>
                 </div>
               ))}

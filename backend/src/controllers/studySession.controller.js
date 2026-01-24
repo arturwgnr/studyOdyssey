@@ -9,6 +9,7 @@ import {
   userSummary,
   weeklyReport,
   topicDistribution,
+  updateStudySection,
 } from "../services/studySession.service.js";
 
 export async function addStudySectionController(req, res) {
@@ -44,9 +45,31 @@ export async function listStudySectionController(req, res) {
 
 export async function deleteStudySectionController(req, res) {
   try {
+    const userId = req.userId;
     const { id } = req.params;
 
-    const updated = await deleteStudySection({ id });
+    const updated = await deleteStudySection({ userId, id });
+
+    res.status(200).json(updated);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+}
+
+export async function updateStudySectionController(req, res) {
+  try {
+    const userId = req.userId;
+    const { id } = req.params;
+    const { topic, duration, type, date } = req.body;
+
+    const updated = await updateStudySection({
+      userId,
+      id,
+      topic,
+      duration,
+      type,
+      date,
+    });
 
     res.status(200).json(updated);
   } catch (error) {

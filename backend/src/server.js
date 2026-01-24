@@ -21,6 +21,7 @@ import {
   userSummaryController,
   weeklyReportController,
   topicDistributionController,
+  updateStudySectionController,
 } from "./controllers/studySession.controller.js";
 
 const app = express();
@@ -61,3 +62,4 @@ app.get("/study-sections", authMiddleware, listStudySectionController);
 
 app.post("/study-sections", authMiddleware, addStudySectionController);
 app.delete("/study-sections/:id", authMiddleware, deleteStudySectionController);
+app.put("/study-sections/:id", authMiddleware, updateStudySectionController);

@@ -23,7 +23,7 @@ export async function addStudySection({ userId, duration, topic, type, date }) {
       duration: Number(duration), // <-- precisa ser número
       topic,
       type,
-      date: new Date(date), // <-- precisa ser Date
+      date: date ? new Date(date) : new Date(), // <-- precisa ser Date
     },
   });
 
@@ -40,9 +40,9 @@ export async function listStudySection({ userId }) {
   return studySection;
 }
 
-export async function deleteStudySection({ id }) {
+export async function deleteStudySection({ userId, id }) {
   const studySection = await prisma.studySession.findUnique({
-    where: { id },
+    where: { userId, id },
   });
 
   if (!studySection) {
@@ -51,6 +51,35 @@ export async function deleteStudySection({ id }) {
 
   const updated = await prisma.studySession.delete({
     where: { id },
+  });
+
+  return updated;
+}
+
+export async function updateStudySection({
+  userId,
+  id,
+  topic,
+  duration,
+  type,
+  date,
+}) {
+  const studySession = await prisma.studySession.findUnique({
+    where: { id, userId },
+  });
+
+  if (!studySession) {
+    throw new Error("SESSION_NOT_FOUND");
+  }
+
+  const updated = await prisma.studySession.update({
+    where: { id },
+    data: {
+      topic,
+      duration: Number(duration),
+      type,
+      date: date ? new Date(date) : studySession.date,
+    },
   });
 
   return updated;
