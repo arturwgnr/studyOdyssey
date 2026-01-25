@@ -33,13 +33,14 @@ function TopicDistributionChart({ data }) {
         </PieChart>
       </ResponsiveContainer>
 
-      {/* LEGENDA */}
       <div className="topic-legend">
         {data.map((item, index) => (
           <div key={item.topic} className="legend-item">
             <span
               className="legend-color"
-              style={{ backgroundColor: COLORS[index % COLORS.length] }}
+              style={{
+                backgroundColor: COLORS[index % COLORS.length],
+              }}
             />
             <span className="legend-label">{item.topic}</span>
           </div>
@@ -50,29 +51,44 @@ function TopicDistributionChart({ data }) {
 }
 
 export default function Dashboard() {
-  //USE EFFECT
-
-  //dashboard
   const [studyTime, setStudyTime] = useState("");
   const [lastSession, setLastSession] = useState(null);
-
   const [completeSummary, setCompleteSummary] = useState(null);
+
   const [weekReport, setWeekReport] = useState([]);
   const [topicDistribution, setTopicDistribution] = useState([]);
   const [totalWeek, setTotalWeek] = useState();
   const [averageWeek, setAverageWeek] = useState();
 
   const [editingId, setEditingId] = useState(null);
-
   const [menuOpen, setMenuOpen] = useState(false);
   const [showSections, setShowSections] = useState(false);
   const [sections, setSections] = useState([]);
+
   const [formData, setFormData] = useState({
     topic: "",
     duration: "",
     type: "practical",
     date: "",
   });
+
+  function handleMenuOpen() {
+    setMenuOpen((prev) => !prev);
+  }
+
+  function handleChange(e) {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  }
+
+  function minutesToHours(minutes) {
+    const h = Math.floor(minutes / 60);
+    const m = minutes % 60;
+
+    if (h === 0) return `${m} min`;
+    if (m === 0) return `${h}h`;
+
+    return `${h}h ${m}min`;
+  }
 
   async function fetchSections() {
     try {
@@ -86,26 +102,9 @@ export default function Dashboard() {
     }
   }
 
-  function minutesToHours(minutes) {
-    const h = Math.floor(minutes / 60);
-    const m = minutes % 60;
-
-    if (h === 0) return `${m} min`;
-    if (m === 0) return `${h}h`;
-
-    return `${h}h ${m}min`;
-  }
-
-  function handleMenuOpen() {
-    setMenuOpen((prev) => !prev);
-  }
-
-  function handleChange(e) {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  }
-
   async function handleSubmitSession() {
     const token = localStorage.getItem("token");
+
     try {
       if (formData.duration <= 0) {
         return window.alert("Did you study at all?");
@@ -115,36 +114,33 @@ export default function Dashboard() {
         await axios.put(
           `http://localhost:3000/study-sections/${editingId}`,
           formData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          },
+          { headers: { Authorization: `Bearer ${token}` } },
         );
 
         setEditingId(null);
-        setMenuOpen(false);
-        await Promise.all([
-          getCompleteSummary(),
-          getStudyMinutes(),
-          getWeekReport(),
-          getTopicDistribution(),
-        ]);
       } else {
         await axios.post("http://localhost:3000/study-sections", formData, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setMenuOpen(false);
-        setFormData({ topic: "", duration: "", type: "practical", date: "" });
-        if (showSections) fetchSections();
 
-        await Promise.all([
-          getCompleteSummary(),
-          getStudyMinutes(),
-          getWeekReport(),
-          getTopicDistribution(),
-        ]);
+        setFormData({
+          topic: "",
+          duration: "",
+          type: "practical",
+          date: "",
+        });
+
+        if (showSections) fetchSections();
       }
+
+      setMenuOpen(false);
+
+      await Promise.all([
+        getCompleteSummary(),
+        getStudyMinutes(),
+        getWeekReport(),
+        getTopicDistribution(),
+      ]);
     } catch (error) {
       console.error(error.message);
     }
@@ -152,11 +148,7 @@ export default function Dashboard() {
 
   async function handleShowSections() {
     try {
-      const token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:3000/study-sections", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setSections(res.data);
+      await fetchSections();
       setShowSections(true);
     } catch (error) {
       console.error(error.message);
@@ -166,6 +158,7 @@ export default function Dashboard() {
   async function handleDeleteSection(id) {
     try {
       const token = localStorage.getItem("token");
+
       await axios.delete(`http://localhost:3000/study-sections/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -183,18 +176,12 @@ export default function Dashboard() {
     }
   }
 
-  //---------------------------------------------------------
-
-  //Summary Dashboard
-
   async function getCompleteSummary() {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.get(
         "http://localhost:3000/dashboard/complete-summary",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        },
+        { headers: { Authorization: `Bearer ${token}` } },
       );
 
       setLastSession(res.data.lastSession);
@@ -209,11 +196,7 @@ export default function Dashboard() {
       const token = localStorage.getItem("token");
       const res = await axios.get(
         "http://localhost:3000/dashboard/topic-distribution",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
+        { headers: { Authorization: `Bearer ${token}` } },
       );
 
       setTopicDistribution(res.data);
@@ -222,98 +205,43 @@ export default function Dashboard() {
     }
   }
 
-  async function showSummary() {
-    try {
-      const token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:3000/dashboard/summary", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      console.log(res.data);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
   async function getStudyMinutes() {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.get("http://localhost:3000/dashboard/minutes", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
 
       const minutes = res.data;
-      const hours = Math.floor(minutes / 60);
-      const mins = minutes % 60;
+      const h = Math.floor(minutes / 60);
+      const m = minutes % 60;
 
-      const formatted = `${hours}h ${mins}min`;
-
-      setStudyTime(formatted);
+      setStudyTime(`${h}h ${m}min`);
     } catch (error) {
       console.error(error.message);
     }
   }
-
-  const TOTAL_DAYS = 112; // mantém exatamente como está no grid
-
-  const today = new Date();
-
-  const heatmapDates = Array.from({ length: TOTAL_DAYS }).map((_, index) => {
-    const d = new Date(today);
-    d.setDate(today.getDate() - (TOTAL_DAYS - 1 - index));
-    return d;
-  });
-
-  const monthLabels = [];
-  let lastMonth = null;
-
-  heatmapDates.forEach((date, index) => {
-    const month = date.toLocaleString("en-US", { month: "short" });
-
-    if (month !== lastMonth && index % 7 === 0) {
-      monthLabels.push({ month, index });
-      lastMonth = month;
-    }
-  });
 
   async function getWeekReport() {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.get(
         "http://localhost:3000/dashboard/week-report",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
+        { headers: { Authorization: `Bearer ${token}` } },
       );
+
       const data = res.data;
       setWeekReport(data);
 
-      const totalWeekMinutes = data.reduce((acc, day) => acc + day.minutes, 0);
+      const total = data.reduce((acc, d) => acc + d.minutes, 0);
 
-      const dailyAverage = Math.round(totalWeekMinutes / 7);
-
-      setTotalWeek(totalWeekMinutes);
-      setAverageWeek(dailyAverage);
-
-      console.log(totalWeek, averageWeek);
+      setTotalWeek(total);
+      setAverageWeek(Math.round(total / 7));
     } catch (error) {
       console.error(error.message);
     }
   }
 
-  //PIE CHART
-  function topicDistributionChart({ data }) {
-    if (!data || data.length === 0) {
-      return <p>No data yet...</p>;
-    }
-  }
-
-  //Reload Content
   useEffect(() => {
     getCompleteSummary();
     getStudyMinutes();
@@ -327,7 +255,6 @@ export default function Dashboard() {
 
       <main className="dashboard-main">
         <header className="dashboard-header">
-          <button onClick={getTopicDistribution}>TEST LOG</button>
           <div className="header-left">
             <h1 className="dashboard-title">Welcome back, King Artur! 👋</h1>
             <p className="dashboard-subtitle">
