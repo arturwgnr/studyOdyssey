@@ -481,11 +481,13 @@ export default function Dashboard() {
 
             <div className="week-stats">
               <div>
-                <strong>{totalWeek} min</strong>
+                <strong>{totalWeek ? minutesToHours(totalWeek) : "--"}</strong>
                 <p>Total this week</p>
               </div>
               <div>
-                <strong>{averageWeek} min</strong>
+                <strong>
+                  {averageWeek ? minutesToHours(averageWeek) : "--"}
+                </strong>
                 <p>Daily average</p>
               </div>
             </div>
