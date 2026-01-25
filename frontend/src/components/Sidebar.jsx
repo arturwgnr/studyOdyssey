@@ -1,15 +1,15 @@
 import "../styles/Sidebar.css";
 import { useState } from "react";
+import { NavLink } from "react-router-dom";
 import axios from "axios";
 
 export default function Sidebar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [activeItem, setActiveItem] = useState("Dashboard");
 
   const [formData, setFormData] = useState({
     topic: "",
     duration: "",
-    type: "pratical",
+    type: "practical",
     date: "",
   });
 
@@ -25,17 +25,10 @@ export default function Sidebar() {
     try {
       const token = localStorage.getItem("token");
 
-      const res = await axios.post(
-        "http://localhost:3000/study-sections",
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+      await axios.post("http://localhost:3000/study-sections", formData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
-      console.log(res);
       setMenuOpen(false);
       setFormData({ topic: "", duration: "", type: "practical", date: "" });
     } catch (error) {
@@ -53,47 +46,32 @@ export default function Sidebar() {
         <p className="sidebar-subtitle">Track your learning</p>
       </div>
 
-      <div className="sidebar-divider"></div>
+      <div className="sidebar-divider" />
 
       <button onClick={handleMenuOpen} className="sidebar-add-btn">
         + Add Session
       </button>
 
       <nav className="sidebar-nav">
-        <button
-          className={`nav-item ${activeItem === "Dashboard" ? "active" : ""}`}
-          onClick={() => setActiveItem("Dashboard")}
-        >
+        <NavLink to="/app/dashboard" className="nav-item">
           Dashboard
-        </button>
+        </NavLink>
 
-        <button
-          className={`nav-item ${activeItem === "History" ? "active" : ""}`}
-          onClick={() => setActiveItem("History")}
-        >
+        <NavLink to="/app/history" className="nav-item">
           History
-        </button>
+        </NavLink>
 
-        <button
-          className={`nav-item ${activeItem === "To-do" ? "active" : ""}`}
-          onClick={() => setActiveItem("To-do")}
-        >
+        <NavLink to="/app/todo" className="nav-item">
           To-do
-        </button>
+        </NavLink>
 
-        <button
-          className={`nav-item ${activeItem === "Achievements" ? "active" : ""}`}
-          onClick={() => setActiveItem("Achievements")}
-        >
+        <NavLink to="/app/achievements" className="nav-item">
           Achievements
-        </button>
+        </NavLink>
 
-        <button
-          className={`nav-item ${activeItem === "Profile" ? "active" : ""}`}
-          onClick={() => setActiveItem("Profile")}
-        >
+        <NavLink to="/app/profile" className="nav-item">
           Profile
-        </button>
+        </NavLink>
       </nav>
 
       <div className="sidebar-footer">

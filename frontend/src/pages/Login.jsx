@@ -23,7 +23,7 @@ export default function Login() {
     try {
       const res = await axios.post(
         "http://localhost:3000/auth/login",
-        formData
+        formData,
       );
 
       const token = res.data.token;
@@ -32,7 +32,7 @@ export default function Login() {
       localStorage.setItem("user", user);
       localStorage.setItem("token", token);
 
-      nav("/dashboard");
+      nav("/app/dashboard");
     } catch (error) {
       console.error(error.message);
     }

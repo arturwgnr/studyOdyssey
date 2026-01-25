@@ -9,6 +9,10 @@
   flex-direction: column;
 }
 
+.sidebar .nav-item {
+  text-decoration: none;
+}
+
 /* ===== HEADER ===== */
 .sidebar-header {
   margin-bottom: 0px;
