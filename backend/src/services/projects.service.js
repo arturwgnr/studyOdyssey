@@ -7,7 +7,18 @@ export async function getProjects({ userId }) {
     where: { userId },
   });
 
-  if (!projects) {
-    throw new Error("PROJECT_NOT_FOUND");
-  }
+  return projects;
+}
+
+export async function addProject({ userId, name, description, status }) {
+  const newProject = await prisma.project.create({
+    data: {
+      userId,
+      name,
+      description,
+      status,
+    },
+  });
+
+  return newProject;
 }

@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import History from "./pages/History";
+import Projects from "./pages/Projects";
 
 import DashboardLayout from "./layouts/DashboardLayout";
 
@@ -24,6 +25,7 @@ function App() {
           <Route index element={<Navigate to="dashboard" />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="history" element={<History />} />
+          <Route path="projects" element={<Projects />} />
         </Route>
       </Routes>
     </BrowserRouter>
