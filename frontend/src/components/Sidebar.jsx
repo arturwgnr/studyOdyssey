@@ -65,6 +65,9 @@ export default function Sidebar() {
           To-do
         </NavLink>
 
+        <NavLink to="/app/projects" className="nav-item">
+          Projects
+        </NavLink>
         <NavLink to="/app/achievements" className="nav-item">
           Achievements
         </NavLink>

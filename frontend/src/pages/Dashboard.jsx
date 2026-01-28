@@ -538,14 +538,14 @@ export default function Dashboard() {
                 style={{ color: "#10b77f", fontWeight: "bold" }}
                 className="stat-label"
               >
-                Daily Average
+                Daily Average this week
               </p>
             </div>
           </div>
 
           {/* TOPIC DISTRIBUTION */}
           <div className="stat-card">
-            <p className="stat-label">Topic Distribution</p>
+            <p className="stat-label">TOPIC DISTRIBUTION</p>
             <TopicDistributionChart data={topicDistribution} />
           </div>
         </div>

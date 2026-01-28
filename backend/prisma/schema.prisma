@@ -21,6 +21,7 @@ model User {
   createdAt     DateTime       @default(now())
 
   studySessions StudySession[]
+  projects Project[]
 }
 
 model StudySession {
@@ -38,3 +39,17 @@ model StudySession {
   @@index([userId, date])
 }
 
+model Project {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+
+  name        String
+  description String?
+  status      String   // planned | active | paused | completed
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+}
