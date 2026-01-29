@@ -254,7 +254,7 @@ export default function Dashboard() {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      setProjects((prev) => [...prev, res.data]);
+      setProjects(res.data);
     } catch (error) {
       console.error(error.message);
     }

@@ -18,9 +18,15 @@ export async function getProjectsController(req, res) {
 export async function addProjectController(req, res) {
   try {
     const userId = req.userId;
-    const { name, description, status } = req.body;
+    const { name, description, status, startingDate } = req.body;
 
-    const newProject = await addProject({ userId, name, description, status });
+    const newProject = await addProject({
+      userId,
+      name,
+      description,
+      status,
+      startingDate,
+    });
 
     res.status(200).json(newProject);
   } catch (error) {

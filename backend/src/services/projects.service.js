@@ -10,13 +10,20 @@ export async function getProjects({ userId }) {
   return projects;
 }
 
-export async function addProject({ userId, name, description, status }) {
+export async function addProject({
+  userId,
+  name,
+  description,
+  status,
+  startingDate,
+}) {
   const newProject = await prisma.project.create({
     data: {
       userId,
       name,
       description,
       status,
+      startingDate: startingDate ? new Date(startingDate) : null,
     },
   });
 

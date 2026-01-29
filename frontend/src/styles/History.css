@@ -1,0 +1,185 @@
+/* =========================
+   HISTORY
+========================= */
+
+.history-main {
+  padding: 32px;
+  overflow-y: auto;
+}
+
+/* HEADER */
+.history-header {
+  margin-bottom: 32px;
+}
+
+.history-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.history-subtitle {
+  font-size: 14px;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+/* EMPTY */
+.history-empty {
+  font-size: 14px;
+  color: #9ca3af;
+  font-style: italic;
+  text-align: center;
+  margin-top: 48px;
+}
+
+/* LIST */
+.history-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* CARD */
+.history-card {
+  position: relative;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  transition:
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+.history-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+/* ACTIONS */
+.history-actions {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  gap: 6px;
+}
+
+.history-btn {
+  border: none;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.history-btn.edit {
+  background: #65a2d3;
+  color: #fafafa;
+  transition: 0.3s ease;
+}
+
+.history-btn.edit:hover {
+  background: #3b79ac;
+}
+
+.history-btn.delete {
+  border-radius: 50%;
+  background: #ef4444;
+  color: #fafafa;
+  font-size: 16px;
+  line-height: 1;
+  transition: 0.3s ease;
+}
+
+.history-btn.delete:hover {
+  background-color: rgb(221, 46, 46);
+}
+
+/* MAIN CONTENT */
+.history-main-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.history-topic {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+}
+
+/* TYPE BADGE */
+.history-type {
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #e6f7f1;
+  color: #10b981;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+/* META */
+.history-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.meta-label {
+  font-size: 11px;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.meta-value {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  margin-top: 2px;
+}
+
+.history-card {
+  padding-top: 44px; /* cria espaço real pros botões */
+}
+
+.history-actions {
+  top: 12px;
+  right: 12px;
+  flex-direction: row;
+  align-items: center;
+}
+
+.history-main-content {
+  padding-right: 80px; /* evita colisão com botões */
+}
+
+/* TYPE COLORS */
+
+.history-type {
+  text-transform: capitalize;
+}
+
+/* theory = amarelo */
+.history-type.theory {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+/* practical = verde */
+.history-type.practical {
+  background: #c8f1e3;
+  color: #10b981;
+}
+
+/* logical = azul */
+.history-type.logical {
+  background: #d2e8f7;
+  color: #0284c7;
+}

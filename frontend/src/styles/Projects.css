@@ -1,0 +1,532 @@
+/* =========================
+   PROJECTS
+========================= */
+
+.projects-main {
+  padding: 32px;
+  overflow-y: auto;
+}
+
+/* HEADER */
+.projects-header {
+  margin-bottom: 32px;
+}
+
+.projects-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.projects-subtitle {
+  font-size: 14px;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+/* EMPTY */
+.projects-empty {
+  font-size: 14px;
+  color: #9ca3af;
+  font-style: italic;
+  text-align: center;
+  margin-top: 48px;
+}
+
+/* =========================
+   FORM
+========================= */
+
+.project-form {
+  background: #fafafa;
+
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 4px 4px 30px rgba(0, 0, 0, 0.164);
+  margin-bottom: 32px;
+}
+
+.form-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 180px 160px;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.project-form input,
+.project-form select,
+.project-description-input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  font-size: 14px;
+}
+
+.project-description-input {
+  width: 100%;
+  min-height: 80px;
+  resize: vertical;
+  margin-bottom: 16px;
+}
+
+.project-add-btn {
+  padding: 10px 16px;
+  background: #10b77f;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.project-add-btn:hover {
+  background: #0ea371;
+}
+
+/* =========================
+   GRID
+========================= */
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.project-card {
+  position: relative;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition:
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+.project-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+/* ACTIONS */
+.project-actions {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  gap: 6px;
+}
+
+.project-btn {
+  border: none;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.project-btn.edit {
+  background: #e6f7f1;
+  color: #10b981;
+}
+
+.project-btn.edit:hover {
+  background: #d1fae5;
+}
+
+.project-btn.delete {
+  background: transparent;
+  color: #ef4444;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.project-btn.delete:hover {
+  color: #dc2626;
+}
+
+/* HEADER */
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 80px;
+}
+
+.project-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+}
+
+/* STATUS BADGE */
+.project-status {
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+/* STATUS COLORS */
+.status-planned {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.status-active {
+  background: #e6f7f1;
+  color: #10b981;
+}
+
+.status-paused {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.status-completed {
+  background: #e0f2fe;
+  color: #0284c7;
+}
+
+/* DESCRIPTION */
+.project-description {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+/* Clamp for long text */
+.project-description.clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* META */
+.project-meta {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: auto;
+}
+
+.meta-label {
+  font-size: 11px;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.meta-value {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  margin-top: 2px;
+}
+
+/* =========================
+   STATUS ACCENT (OPTIONAL)
+========================= */
+
+.project-card.active {
+  border-left: 4px solid #10b981;
+}
+
+.project-card.paused {
+  border-left: 4px solid #f59e0b;
+}
+
+.project-card.completed {
+  border-left: 4px solid #0284c7;
+}
+
+/* =========================
+   PROJECTS
+========================= */
+
+.projects-main {
+  padding: 32px;
+  overflow-y: auto;
+}
+
+/* HEADER */
+.projects-header {
+  margin-bottom: 32px;
+}
+
+.projects-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.projects-subtitle {
+  font-size: 14px;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+/* EMPTY */
+.projects-empty {
+  font-size: 14px;
+  color: #9ca3af;
+  font-style: italic;
+  text-align: center;
+  margin-top: 48px;
+}
+
+/* =========================
+   FORM
+========================= */
+
+.project-form {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  margin-bottom: 32px;
+}
+
+.form-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 180px 160px;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.project-form input,
+.project-form select,
+.project-description-input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  font-size: 14px;
+}
+
+.project-description-input {
+  width: 100%;
+  min-height: 80px;
+  resize: vertical;
+  margin-bottom: 16px;
+}
+
+.project-add-btn {
+  padding: 10px 16px;
+  background: #10b77f;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.project-add-btn:hover {
+  background: #0ea371;
+}
+
+/* =========================
+   GRID
+========================= */
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.project-card {
+  position: relative;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition:
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+.project-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+/* ACTIONS */
+.project-actions {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  gap: 6px;
+}
+
+.project-btn {
+  border: none;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.project-btn.edit {
+  background: #e6f7f1;
+  color: #10b981;
+}
+
+.project-btn.edit:hover {
+  background: #d1fae5;
+}
+
+.project-btn.delete {
+  background: transparent;
+  color: #ef4444;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.project-btn.delete:hover {
+  color: #dc2626;
+}
+
+/* HEADER */
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 80px;
+}
+
+.project-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+}
+
+/* STATUS BADGE */
+.project-status {
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+/* STATUS COLORS */
+.status-planned {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.status-active {
+  background: #e6f7f1;
+  color: #10b981;
+}
+
+.status-paused {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.status-completed {
+  background: #e0f2fe;
+  color: #0284c7;
+}
+
+/* DESCRIPTION */
+.project-description {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+/* Clamp for long text */
+.project-description.clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* META */
+.project-meta {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: auto;
+}
+
+.meta-label {
+  font-size: 11px;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.meta-value {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  margin-top: 2px;
+}
+
+/* =========================
+   STATUS ACCENT (OPTIONAL)
+========================= */
+
+.project-card.active {
+  border-left: 4px solid #10b981;
+}
+
+.project-card.paused {
+  border-left: 4px solid #f59e0b;
+}
+
+.project-card.completed {
+  border-left: 4px solid #0284c7;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #10b77f;
+  box-shadow: 1px 1px 1px 10px rgba(7, 182, 124, 0.034);
+}

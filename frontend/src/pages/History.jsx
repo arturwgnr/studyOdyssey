@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+import "../styles/History.css";
+
 export default function History() {
   const [studySessions, setStudySessions] = useState([]);
   const [sessionId, setSessionId] = useState(null);
@@ -13,11 +15,8 @@ export default function History() {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.get("http://localhost:3000/study-sections", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
-
       setStudySessions(res.data);
     } catch (error) {
       console.error(error.message);
@@ -27,19 +26,13 @@ export default function History() {
   async function deleteSession(id) {
     try {
       const token = localStorage.getItem("token");
-
       if (!window.confirm("Are you sure you want to delete this session?"))
         return;
 
-      const res = await axios.delete(
-        `http://localhost:3000/study-sections/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      console.log(res.data);
+      await axios.delete(`http://localhost:3000/study-sections/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
       getStudySessions();
     } catch (error) {
       console.error(error.message);
@@ -51,21 +44,69 @@ export default function History() {
   }, []);
 
   return (
-    <div>
-      <h1>Welcome to History</h1>
+    <main className="history-main">
+      {/* HEADER */}
+      <header className="history-header">
+        <div>
+          <h1 className="history-title">Session History</h1>
+          <p className="history-subtitle">
+            Manage and review your study sessions
+          </p>
+        </div>
+      </header>
 
-      <div className="study-sessions">
+      {/* LIST */}
+      <section className="history-list">
+        {studySessions.length === 0 && (
+          <p className="history-empty">No study sessions yet.</p>
+        )}
+
         {studySessions.map((s) => (
-          <div key={s.id} className="study-card">
-            <button onClick={() => deleteSession(s.id)}>x</button>
-            <h3>{s.topic}</h3>
-            <p>Duration: {s.duration} min</p>
-            <p>Type: {s.type}</p>
-            <p>Date: {s.date}</p>
-            <p>-----------------</p>
-          </div>
+          <article key={s.id} className="history-card">
+            {/* ACTIONS */}
+            <div className="history-actions">
+              <button
+                className="history-btn edit"
+                onClick={() => setSessionId(s.id)}
+              >
+                Edit
+              </button>
+
+              <button
+                className="history-btn delete"
+                onClick={() => deleteSession(s.id)}
+              >
+                ×
+              </button>
+            </div>
+
+            {/* MAIN */}
+            <div className="history-main-content">
+              <h3 className="history-topic">{s.topic}</h3>
+              <span className={`history-type ${s.type}`}>{s.type}</span>
+            </div>
+
+            {/* META */}
+            <div className="history-meta">
+              <div>
+                <span className="meta-label">Duration</span>
+                <span className="meta-value">{s.duration} min</span>
+              </div>
+
+              <div>
+                <span className="meta-label">Date</span>
+                <span className="meta-value">
+                  {new Date(s.date).toLocaleDateString("en-IE", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                  })}
+                </span>
+              </div>
+            </div>
+          </article>
         ))}
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
