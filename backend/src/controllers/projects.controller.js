@@ -1,4 +1,8 @@
-import { addProject, getProjects } from "../services/projects.service";
+import {
+  addProject,
+  getProjects,
+  deleteProject,
+} from "../services/projects.service.js";
 
 export async function getProjectsController(req, res) {
   try {
@@ -19,6 +23,19 @@ export async function addProjectController(req, res) {
     const newProject = await addProject({ userId, name, description, status });
 
     res.status(200).json(newProject);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+}
+
+export async function deleteProjectController(req, res) {
+  try {
+    const userId = req.userId;
+    const { id } = req.params;
+
+    const deleted = await deleteProject({ userId, id });
+
+    res.status(200).json(deleted);
   } catch (error) {
     res.status(500).json(error.message);
   }

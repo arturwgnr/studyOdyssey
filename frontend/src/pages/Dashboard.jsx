@@ -58,6 +58,8 @@ export default function Dashboard() {
   const [lastSession, setLastSession] = useState(null);
   const [completeSummary, setCompleteSummary] = useState(null);
 
+  const [projects, setProjects] = useState([]);
+
   const [weekReport, setWeekReport] = useState([]);
   const [topicDistribution, setTopicDistribution] = useState([]);
   const [totalWeek, setTotalWeek] = useState();
@@ -245,18 +247,34 @@ export default function Dashboard() {
     }
   }
 
+  async function getProjects() {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.get("http://localhost:3000/projects", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      setProjects((prev) => [...prev, res.data]);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
   useEffect(() => {
     getCompleteSummary();
     getStudyMinutes();
     getWeekReport();
     getTopicDistribution();
+    getProjects();
   }, []);
+
+  const user = localStorage.getItem("username");
 
   return (
     <main className="dashboard-main">
       <header className="dashboard-header">
         <div className="header-left">
-          <h1 className="dashboard-title">Welcome back, King Artur! 👋</h1>
+          <h1 className="dashboard-title">Welcome back, {user}! 👋</h1>
           <p className="dashboard-subtitle">
             You're 200 XP away from Level 15. Keep it up!
           </p>
@@ -386,7 +404,7 @@ export default function Dashboard() {
             </div>
 
             <div className="stat-card">
-              <p className="stat-value">1</p>
+              <p className="stat-value">{projects.length}</p>
               <p className="stat-label">Opened Projects</p>
             </div>
           </div>

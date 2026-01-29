@@ -62,6 +62,7 @@ export default function History() {
             <p>Duration: {s.duration} min</p>
             <p>Type: {s.type}</p>
             <p>Date: {s.date}</p>
+            <p>-----------------</p>
           </div>
         ))}
       </div>

@@ -24,6 +24,12 @@ import {
   updateStudySectionController,
 } from "./controllers/studySession.controller.js";
 
+import {
+  addProjectController,
+  getProjectsController,
+  deleteProjectController,
+} from "./controllers/projects.controller.js";
+
 const app = express();
 
 app.use(cors());
@@ -63,3 +69,8 @@ app.get("/study-sections", authMiddleware, listStudySectionController);
 app.post("/study-sections", authMiddleware, addStudySectionController);
 app.delete("/study-sections/:id", authMiddleware, deleteStudySectionController);
 app.put("/study-sections/:id", authMiddleware, updateStudySectionController);
+
+//Projects
+app.post("/projects", authMiddleware, addProjectController);
+app.get("/projects", authMiddleware, getProjectsController);
+app.delete("/projects/:id", authMiddleware, deleteProjectController);

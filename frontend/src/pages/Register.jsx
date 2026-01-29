@@ -32,9 +32,13 @@ export default function Register() {
     try {
       const res = await axios.post(
         "http://localhost:3000/auth/register",
-        formData
+        formData,
       );
       console.log(res.data);
+      console.log(res.data.name);
+
+      localStorage.setItem("username", res.data.newUser.name);
+
       nav("/login");
     } catch (error) {
       console.error(error.message);

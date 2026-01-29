@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export async function getProjects({ userId }) {
-  const projects = await prisma.projects.findMany({
+  const projects = await prisma.project.findMany({
     where: { userId },
   });
 
@@ -21,4 +21,20 @@ export async function addProject({ userId, name, description, status }) {
   });
 
   return newProject;
+}
+
+export async function deleteProject({ userId, id }) {
+  const project = await prisma.project.findFirst({
+    where: { id, userId },
+  });
+
+  if (!project) {
+    throw new Error("PROJECT_NOT_FOUND");
+  } else {
+    const updated = await prisma.project.delete({
+      where: { id },
+    });
+
+    return updated;
+  }
 }
