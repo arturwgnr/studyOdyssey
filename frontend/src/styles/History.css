@@ -76,26 +76,27 @@
 }
 
 .history-btn.edit {
-  background: #65a2d3;
+  background: #10b981;
   color: #fafafa;
   transition: 0.3s ease;
 }
 
 .history-btn.edit:hover {
-  background: #3b79ac;
+  background: #099e6c;
 }
 
 .history-btn.delete {
   border-radius: 50%;
-  background: #ef4444;
-  color: #fafafa;
+  color: #ef4444;
+  background: transparent;
   font-size: 16px;
   line-height: 1;
   transition: 0.3s ease;
 }
 
 .history-btn.delete:hover {
-  background-color: rgb(221, 46, 46);
+  color: rgb(221, 46, 46);
+  text-shadow: 1px 1px 1px rgba(255, 0, 0, 0.541);
 }
 
 /* MAIN CONTENT */

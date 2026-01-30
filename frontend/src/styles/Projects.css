@@ -144,23 +144,24 @@
 }
 
 .project-btn.edit {
-  background: #e6f7f1;
-  color: #10b981;
+  color: #e6f7f1 !important;
+  background-color: #10b77f !important;
+  transition: 0.4s ease;
 }
 
 .project-btn.edit:hover {
-  background: #d1fae5;
+  background: #0d9769 !important;
 }
 
 .project-btn.delete {
   background: transparent;
-  color: #ef4444;
   font-size: 16px;
   line-height: 1;
 }
 
 .project-btn.delete:hover {
-  color: #dc2626;
+  color: rgb(221, 46, 46);
+  text-shadow: 1px 1px 1px rgba(255, 0, 0, 0.541);
 }
 
 /* HEADER */
@@ -529,4 +530,92 @@ textarea:focus {
   outline: none;
   border-color: #10b77f;
   box-shadow: 1px 1px 1px 10px rgba(7, 182, 124, 0.034);
+}
+
+/* =========================
+   MODAL (EDIT / CREATE)
+========================= */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-box {
+  background: #ffffff;
+  border-radius: 16px;
+  width: 420px;
+  max-width: 90%;
+  padding: 24px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  animation: modalFadeIn 0.2s ease;
+}
+
+/* TITLE */
+.modal-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 16px;
+}
+
+/* CONTENT */
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.modal-input,
+.modal-textarea,
+.modal-select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  font-size: 14px;
+  color: #111827;
+  background: #ffffff;
+}
+
+.modal-textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+/* FOCUS STATE */
+.modal-input:focus,
+.modal-textarea:focus,
+.modal-select:focus {
+  outline: none;
+  border-color: #10b77f;
+  box-shadow: 0 0 0 3px rgba(16, 183, 127, 0.15);
+}
+
+/* ACTIONS */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+/* ANIMATION */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

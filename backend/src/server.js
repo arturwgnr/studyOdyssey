@@ -28,6 +28,7 @@ import {
   addProjectController,
   getProjectsController,
   deleteProjectController,
+  editProjectController,
 } from "./controllers/projects.controller.js";
 
 const app = express();
@@ -72,5 +73,6 @@ app.put("/study-sections/:id", authMiddleware, updateStudySectionController);
 
 //Projects
 app.post("/projects", authMiddleware, addProjectController);
+app.put("/projects/:id", authMiddleware, editProjectController);
 app.get("/projects", authMiddleware, getProjectsController);
 app.delete("/projects/:id", authMiddleware, deleteProjectController);

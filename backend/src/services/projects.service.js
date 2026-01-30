@@ -5,6 +5,7 @@ const prisma = new PrismaClient();
 export async function getProjects({ userId }) {
   const projects = await prisma.project.findMany({
     where: { userId },
+    orderBy: { createdAt: "desc" },
   });
 
   return projects;
@@ -42,6 +43,25 @@ export async function deleteProject({ userId, id }) {
       where: { id },
     });
 
+    return updated;
+  }
+}
+
+export async function editProject({ userId, id, name, description, status }) {
+  const project = await prisma.project.findFirst({
+    where: {
+      userId,
+      id,
+    },
+  });
+
+  if (!project) {
+    throw new Error("PROJECT_NOT_FOUND");
+  } else {
+    const updated = await prisma.project.update({
+      where: { id },
+      data: { name, description, status },
+    });
     return updated;
   }
 }

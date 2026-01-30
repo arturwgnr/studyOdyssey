@@ -7,6 +7,13 @@ export default function History() {
   const [studySessions, setStudySessions] = useState([]);
   const [sessionId, setSessionId] = useState(null);
 
+  const [isEditing, setIsEditing] = useState(false);
+  const [editForm, setEditForm] = useState({
+    name: "",
+    duration: "",
+    date: "",
+  });
+
   function refreshData() {
     getStudySessions();
   }
@@ -39,6 +46,25 @@ export default function History() {
     }
   }
 
+  async function updateSession(id, data) {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.put(
+        `http://localhost:3000/study-sections/${id}`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      setIsEditing(false);
+      console.log(res.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   useEffect(() => {
     refreshData();
   }, []);
@@ -67,7 +93,16 @@ export default function History() {
             <div className="history-actions">
               <button
                 className="history-btn edit"
-                onClick={() => setSessionId(s.id)}
+                onClick={() => {
+                  (setSessionId(s.id),
+                    setIsEditing(true),
+                    setEditForm({
+                      topic: s.topic,
+                      duration: s.duration,
+                      date: s.date.split("T")[0],
+                      type: s.type,
+                    }));
+                }}
               >
                 Edit
               </button>
@@ -106,6 +141,72 @@ export default function History() {
             </div>
           </article>
         ))}
+
+        {isEditing && (
+          <div className="modal-overlay">
+            <div className="modal-box">
+              <h3 className="modal-title">Edit Study Session</h3>
+
+              <div className="modal-content">
+                <input
+                  className="modal-input"
+                  value={editForm.topic}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, topic: e.target.value })
+                  }
+                  placeholder="Topic"
+                />
+
+                <input
+                  className="modal-input"
+                  type="number"
+                  value={editForm.duration}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, duration: e.target.value })
+                  }
+                  placeholder="Duration (min)"
+                />
+
+                <input
+                  className="modal-input"
+                  type="date"
+                  value={editForm.date}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, date: e.target.value })
+                  }
+                />
+
+                <select
+                  className="modal-select"
+                  value={editForm.type}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, type: e.target.value })
+                  }
+                >
+                  <option value="theory">Theory</option>
+                  <option value="logical">Logical</option>
+                  <option value="practical">Practical</option>
+                </select>
+              </div>
+
+              <div className="modal-actions">
+                <button onClick={updateSession} className="dashboard-btn">
+                  Save
+                </button>
+
+                <button
+                  className="dashboard-btn secondary"
+                  onClick={() => {
+                    setIsEditing(false);
+                    setEditingSession(null);
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </section>
     </main>
   );

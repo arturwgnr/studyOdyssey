@@ -4,10 +4,19 @@ import axios from "axios";
 import "../styles/Projects.css";
 
 export default function Projects() {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingItem, setEditingItem] = useState(null);
+
   const [formData, setFormData] = useState({
     name: "",
     description: "",
     startingDate: "",
+    status: "planned",
+  });
+
+  const [editForm, setEditForm] = useState({
+    name: "",
+    description: "",
     status: "planned",
   });
 
@@ -77,6 +86,16 @@ export default function Projects() {
     const diff = today - start;
 
     return Math.floor(diff / (1000 * 60 * 60 * 24));
+  }
+
+  async function updateProject(id, data) {
+    const token = localStorage.getItem("token");
+
+    const res = await axios.put(`http://localhost:3000/projects/${id}`, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    return res.data;
   }
 
   useEffect(() => {
@@ -149,7 +168,20 @@ export default function Projects() {
             <article key={p.id} className={`project-card ${p.status}`}>
               {/* ACTIONS */}
               <div className="project-actions">
-                <button className="project-btn edit">Edit</button>
+                <button
+                  onClick={() => {
+                    setIsEditing(true);
+                    setEditingItem(p);
+                    setEditForm({
+                      name: p.name,
+                      description: p.description,
+                      status: p.status,
+                    });
+                  }}
+                  className="project-btn edit"
+                >
+                  Edit
+                </button>
                 <button
                   className="project-btn delete"
                   onClick={() => deleteProject(p.id)}
@@ -205,6 +237,95 @@ export default function Projects() {
             </article>
           );
         })}
+
+        {isEditing && (
+          <div className="modal-overlay">
+            <div className="modal-box">
+              {/* HEADER */}
+              <h3 className="modal-title">Edit Project</h3>
+
+              {/* BODY */}
+              <div className="modal-content">
+                <input
+                  value={editForm.name}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, name: e.target.value })
+                  }
+                  type="text"
+                  placeholder="Project name"
+                  className="modal-input"
+                />
+
+                <textarea
+                  value={editForm.description}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, description: e.target.value })
+                  }
+                  placeholder="Project description"
+                  className="modal-textarea"
+                />
+
+                <select
+                  value={editForm.status}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, status: e.target.value })
+                  }
+                  className="modal-select"
+                >
+                  <option value="planned">Planned</option>
+                  <option value="active">Active</option>
+                  <option value="paused">Paused</option>
+                  <option value="completed">Completed</option>
+                </select>
+              </div>
+
+              {/* ACTIONS */}
+              <div className="modal-actions">
+                <button
+                  className="dashboard-btn"
+                  onClick={async () => {
+                    try {
+                      const updated = await updateProject(
+                        editingItem.id,
+                        editForm,
+                      );
+
+                      // update local (sem refetch)
+                      setProjects((prev) =>
+                        prev.map((p) => (p.id === updated.id ? updated : p)),
+                      );
+
+                      // close modal
+                      setIsEditing(false);
+                      setEditingItem(null);
+
+                      // reset form
+                      setEditForm({
+                        name: "",
+                        description: "",
+                        status: "planned",
+                      });
+                    } catch (err) {
+                      console.error(err.message);
+                    }
+                  }}
+                >
+                  Save
+                </button>
+
+                <button
+                  className="dashboard-btn secondary"
+                  onClick={() => {
+                    setIsEditing(false);
+                    setEditingItem(null);
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </section>
     </main>
   );

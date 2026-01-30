@@ -2,6 +2,7 @@ import {
   addProject,
   getProjects,
   deleteProject,
+  editProject,
 } from "../services/projects.service.js";
 
 export async function getProjectsController(req, res) {
@@ -44,5 +45,25 @@ export async function deleteProjectController(req, res) {
     res.status(200).json(deleted);
   } catch (error) {
     res.status(500).json(error.message);
+  }
+}
+
+export async function editProjectController(req, res) {
+  try {
+    const { id } = req.params;
+    const userId = req.userId;
+    const { name, description, status } = req.body;
+
+    const updated = await editProject({
+      userId,
+      id,
+      name,
+      description,
+      status,
+    });
+
+    res.status(200).json(updated);
+  } catch (error) {
+    res.status(500).json(error);
   }
 }
