@@ -9,14 +9,11 @@ export default function History() {
 
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState({
-    name: "",
+    topic: "",
     duration: "",
     date: "",
+    type: "practical",
   });
-
-  function refreshData() {
-    getStudySessions();
-  }
 
   async function getStudySessions() {
     try {
@@ -40,7 +37,7 @@ export default function History() {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      getStudySessions();
+      setStudySessions((prev) => prev.filter((s) => s.id !== id));
     } catch (error) {
       console.error(error.message);
     }
@@ -49,24 +46,27 @@ export default function History() {
   async function updateSession(id, data) {
     try {
       const token = localStorage.getItem("token");
+
       const res = await axios.put(
         `http://localhost:3000/study-sections/${id}`,
         data,
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         },
       );
+
+      // update local state (sem refetch)
+      setStudySessions((prev) => prev.map((s) => (s.id === id ? res.data : s)));
+
       setIsEditing(false);
-      console.log(res.data);
+      setSessionId(null);
     } catch (error) {
       console.error(error);
     }
   }
 
   useEffect(() => {
-    refreshData();
+    getStudySessions();
   }, []);
 
   return (
@@ -94,14 +94,14 @@ export default function History() {
               <button
                 className="history-btn edit"
                 onClick={() => {
-                  (setSessionId(s.id),
-                    setIsEditing(true),
-                    setEditForm({
-                      topic: s.topic,
-                      duration: s.duration,
-                      date: s.date.split("T")[0],
-                      type: s.type,
-                    }));
+                  setSessionId(s.id);
+                  setIsEditing(true);
+                  setEditForm({
+                    topic: s.topic,
+                    duration: s.duration,
+                    date: s.date.split("T")[0],
+                    type: s.type,
+                  });
                 }}
               >
                 Edit
@@ -142,6 +142,7 @@ export default function History() {
           </article>
         ))}
 
+        {/* MODAL */}
         {isEditing && (
           <div className="modal-overlay">
             <div className="modal-box">
@@ -190,7 +191,10 @@ export default function History() {
               </div>
 
               <div className="modal-actions">
-                <button onClick={updateSession} className="dashboard-btn">
+                <button
+                  className="dashboard-btn"
+                  onClick={() => updateSession(sessionId, editForm)}
+                >
                   Save
                 </button>
 
@@ -198,7 +202,7 @@ export default function History() {
                   className="dashboard-btn secondary"
                   onClick={() => {
                     setIsEditing(false);
-                    setEditingSession(null);
+                    setSessionId(null);
                   }}
                 >
                   Cancel

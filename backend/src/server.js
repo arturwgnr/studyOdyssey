@@ -31,6 +31,11 @@ import {
   editProjectController,
 } from "./controllers/projects.controller.js";
 
+import {
+  addTaskController,
+  fetchTasksController,
+} from "./controllers/todo.controller.js";
+
 const app = express();
 
 app.use(cors());
@@ -76,3 +81,7 @@ app.post("/projects", authMiddleware, addProjectController);
 app.put("/projects/:id", authMiddleware, editProjectController);
 app.get("/projects", authMiddleware, getProjectsController);
 app.delete("/projects/:id", authMiddleware, deleteProjectController);
+
+//To-do
+app.post("/todo", authMiddleware, addTaskController);
+app.get("/todo", authMiddleware, fetchTasksController);
