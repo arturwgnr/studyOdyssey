@@ -17,3 +17,15 @@ export async function addTask({ userId, title, description, priority }) {
 
   return newTask;
 }
+
+export async function deleteTask({ userId, id }) {
+  const deleted = await prisma.task.deleteMany({
+    where: { id, userId },
+  });
+
+  if (deleted.count === 0) {
+    throw new Error("TASK_NOT_FOUND");
+  }
+
+  return deleted;
+}

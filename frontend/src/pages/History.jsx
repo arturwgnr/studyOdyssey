@@ -15,6 +15,18 @@ export default function History() {
     type: "practical",
   });
 
+  async function fetchSections() {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.get("http://localhost:3000/study-sections", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setSections(res.data);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
   async function getStudySessions() {
     try {
       const token = localStorage.getItem("token");
@@ -67,6 +79,7 @@ export default function History() {
 
   useEffect(() => {
     getStudySessions();
+    fetchSections();
   }, []);
 
   return (
