@@ -63,7 +63,13 @@ export async function editTaskController(req, res) {
     const { id } = req.params;
     const { title, description, priority } = req.body;
 
-    const updated = await editTask({ title, description, priority });
+    const updated = await editTask({
+      userId,
+      id,
+      title,
+      description,
+      priority,
+    });
 
     res.status(200).json(updated);
   } catch (error) {

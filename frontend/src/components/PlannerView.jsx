@@ -1,3 +1,4 @@
+// PlannerView.jsx (tasks organizadas abaixo, layout estável)
 import { useMemo, useState } from "react";
 import axios from "axios";
 
@@ -50,7 +51,7 @@ export default function PlannerView({ tasks, setTasks }) {
     setTasks((prev) => prev.map((t) => (t.id === id ? res.data : t)));
   }
 
-  async function updateTaskDate(taskId, plannedDate) {
+  function updateTaskDate(taskId, plannedDate) {
     updateTask(taskId, { plannedDate });
   }
 
@@ -80,36 +81,7 @@ export default function PlannerView({ tasks, setTasks }) {
           <span className="panel-hint">Plan your week</span>
         </div>
 
-        {/* UNPLANNED */}
-        <div className="planner-pool">
-          {unplannedTasks.map((task) => (
-            <div
-              key={task.id}
-              draggable
-              onDragStart={(e) => onDragStart(e, task.id)}
-              className={`planner-task pool priority-${task.priority.toLowerCase()}`}
-            >
-              <span className="planner-task-title">{task.title}</span>
-
-              <button
-                className="planner-edit"
-                onClick={() => {
-                  setIsEditing(true);
-                  setEditingTask(task);
-                  setEditForm({
-                    title: task.title,
-                    description: task.description || "",
-                    priority: task.priority,
-                  });
-                }}
-              >
-                ✎
-              </button>
-            </div>
-          ))}
-        </div>
-
-        {/* WEEK GRID */}
+        {/* WEEK GRID (sempre fixo no topo) */}
         <div className="planner-grid">
           {DAYS.map((day) => {
             const date = new Date(weekStart);
@@ -177,6 +149,43 @@ export default function PlannerView({ tasks, setTasks }) {
             );
           })}
         </div>
+
+        {/* UNPLANNED TASKS (SEÇÃO SEPARADA EMBAIXO) */}
+        <section className="planner-unplanned-section">
+          <h3 className="planner-unplanned-title">Unplanned Tasks</h3>
+
+          <div className="planner-unplanned-list">
+            {unplannedTasks.length === 0 && (
+              <p className="planner-unplanned-empty">All tasks planned</p>
+            )}
+
+            {unplannedTasks.map((task) => (
+              <div
+                key={task.id}
+                draggable
+                onDragStart={(e) => onDragStart(e, task.id)}
+                className={`planner-task pool priority-${task.priority.toLowerCase()}`}
+              >
+                <span className="planner-task-title">{task.title}</span>
+
+                <button
+                  className="planner-edit"
+                  onClick={() => {
+                    setIsEditing(true);
+                    setEditingTask(task);
+                    setEditForm({
+                      title: task.title,
+                      description: task.description || "",
+                      priority: task.priority,
+                    });
+                  }}
+                >
+                  ✎
+                </button>
+              </div>
+            ))}
+          </div>
+        </section>
       </div>
 
       {/* EDIT MODAL */}

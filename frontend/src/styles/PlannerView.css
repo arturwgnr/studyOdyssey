@@ -226,3 +226,63 @@
   gap: 12px;
   margin-top: 16px;
 }
+
+/* PlannerView.css – ajustes para organização inferior */
+
+/* mantém grid estável */
+.planner-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+/* seção inferior */
+.planner-unplanned-section {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 16px;
+}
+
+.planner-unplanned-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.planner-unplanned-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.planner-unplanned-empty {
+  font-size: 13px;
+  color: #9ca3af;
+  font-style: italic;
+}
+
+/* garante que lista longa não deforme layout */
+.planner-day-body {
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+/* ações */
+.planner-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.planner-edit {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.planner-edit:hover {
+  color: #10b77f;
+}
