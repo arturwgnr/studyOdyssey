@@ -1,4 +1,9 @@
-import { addTask, fetchTasks, deleteTask } from "../services/todo.service.js";
+import {
+  addTask,
+  fetchTasks,
+  deleteTask,
+  editTask,
+} from "../services/todo.service.js";
 
 export async function fetchTasksController(req, res) {
   try {
@@ -47,6 +52,20 @@ export async function deleteTaskController(req, res) {
     const deleted = await deleteTask({ userId, id });
 
     res.status(200).json(deleted);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+}
+
+export async function editTaskController(req, res) {
+  try {
+    const userId = req.userId;
+    const { id } = req.params;
+    const { title, description, priority } = req.body;
+
+    const updated = await editTask({ title, description, priority });
+
+    res.status(200).json(updated);
   } catch (error) {
     res.status(500).json(error.message);
   }

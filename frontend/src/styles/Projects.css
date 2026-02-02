@@ -434,6 +434,10 @@
   padding-right: 80px;
 }
 
+.project-card.planned {
+  border-left: 5px solid #464a5096;
+}
+
 .project-name {
   font-size: 16px;
   font-weight: 600;

@@ -29,3 +29,20 @@ export async function deleteTask({ userId, id }) {
 
   return deleted;
 }
+
+export async function editTask({ userId, id, title, description, priority }) {
+  const task = await prisma.task.findUnique({
+    where: { id, userId },
+  });
+
+  if (!task) {
+    throw new Error("TASK_NOT_FOUND");
+  }
+
+  const updated = await prisma.task.update({
+    where: { userId, id },
+    data: { title, description, priority },
+  });
+
+  return updated;
+}

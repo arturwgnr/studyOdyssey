@@ -549,15 +549,22 @@ export default function Dashboard() {
 
             {/* DAILY AVERAGE */}
             <div className="stat-card half">
-              <p className="stat-value">
-                {averageWeek ? minutesToHours(averageWeek) : "--"}
-              </p>
-              <p
-                style={{ color: "#10b77f", fontWeight: "bold" }}
-                className="stat-label"
-              >
-                Daily Average this week
-              </p>
+              <div className="first-haf">
+                <p className="stat-value">
+                  {averageWeek ? minutesToHours(averageWeek) : "--"}
+                </p>
+                <p
+                  style={{ color: "#10b77f", fontWeight: "bold" }}
+                  className="stat-label"
+                >
+                  Daily Average this week
+                </p>
+              </div>
+
+              <div className="second-haf">
+                <h1>Week average</h1>
+                <h1>Month Average</h1>
+              </div>
             </div>
           </div>
 
