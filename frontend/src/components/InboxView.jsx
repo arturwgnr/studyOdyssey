@@ -1,3 +1,6 @@
+// InboxView.jsx (com marcar como concluído ao clicar na task)
+import axios from "axios";
+
 export default function InboxView({
   tasks,
   formData,
@@ -22,6 +25,19 @@ export default function InboxView({
     e.dataTransfer.setDragImage(img, 0, 0);
 
     setTimeout(() => document.body.removeChild(img), 0);
+  }
+
+  async function toggleCompleted(task) {
+    const token = localStorage.getItem("token");
+
+    const res = await axios.put(
+      `http://localhost:3000/todo/${task.id}`,
+      { completed: !task.completed },
+      { headers: { Authorization: `Bearer ${token}` } },
+    );
+
+    // atualiza estado local (sem refetch)
+    task.completed = res.data.completed;
   }
 
   return (
@@ -86,7 +102,10 @@ export default function InboxView({
             key={task.id}
             draggable
             onDragStart={(e) => onDragStart(e, task.id)}
-            className={`task-card priority-${task.priority.toLowerCase()}`}
+            onClick={() => toggleCompleted(task)}
+            className={`task-card priority-${task.priority.toLowerCase()} ${
+              task.completed ? "completed" : ""
+            }`}
           >
             {/* CARD HEADER */}
             <div className="task-card-header">
@@ -100,7 +119,10 @@ export default function InboxView({
 
               <button
                 className="task-delete"
-                onClick={() => handleDelete(task.id)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDelete(task.id);
+                }}
               >
                 ×
               </button>
@@ -119,7 +141,9 @@ export default function InboxView({
                 {task.priority}
               </span>
 
-              {task.plannedDate ? (
+              {task.completed ? (
+                <span className="task-status completed">Done</span>
+              ) : task.plannedDate ? (
                 <span className="task-status planned">Planned</span>
               ) : (
                 <span className="task-action-hint">Unplanned</span>

@@ -570,7 +570,7 @@ export default function Dashboard() {
 
           {/* TOPIC DISTRIBUTION */}
           <div className="stat-card">
-            <p className="stat-label">TOPIC DISTRIBUTION</p>
+            <p className="stat-label">OVERALL TOPIC DISTRIBUTION</p>
             <TopicDistributionChart data={topicDistribution} />
           </div>
         </div>
