@@ -213,3 +213,55 @@ export async function topicDistribution({ userId }) {
     minutes,
   }));
 }
+
+function startOfWeek(date = new Date()) {
+  const d = new Date(date);
+  const day = d.getDay();
+  const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+  d.setDate(diff);
+  d.setHours(0, 0, 0, 0);
+  return d;
+}
+
+function startOfMonth(date = new Date()) {
+  const d = new Date(date);
+  d.setDate(1);
+  d.setHours(0, 0, 0, 0);
+  return d;
+}
+
+export async function getWeekSummary({ userId }) {
+  const start = startOfWeek();
+
+  const result = await prisma.studySession.aggregate({
+    where: {
+      userId,
+      date: {
+        gte: start,
+      },
+    },
+    _sum: {
+      duration: true,
+    },
+  });
+
+  return result._sum.duration ?? 0;
+}
+
+export async function getMonthSummary({ userId }) {
+  const start = startOfMonth();
+
+  const result = await prisma.studySession.aggregate({
+    where: {
+      userId,
+      date: {
+        gte: start,
+      },
+    },
+    _sum: {
+      duration: true,
+    },
+  });
+
+  return result._sum.duration ?? 0;
+}

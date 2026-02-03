@@ -22,6 +22,8 @@ import {
   weeklyReportController,
   topicDistributionController,
   updateStudySectionController,
+  weekSummaryController,
+  monthSummaryController,
 } from "./controllers/studySession.controller.js";
 
 import {
@@ -77,6 +79,9 @@ app.get("/study-sections", authMiddleware, listStudySectionController);
 app.post("/study-sections", authMiddleware, addStudySectionController);
 app.delete("/study-sections/:id", authMiddleware, deleteStudySectionController);
 app.put("/study-sections/:id", authMiddleware, updateStudySectionController);
+
+app.get("/dashboard/week-summary", authMiddleware, weekSummaryController);
+app.get("/dashboard/month-summary", authMiddleware, monthSummaryController);
 
 //Projects
 app.post("/projects", authMiddleware, addProjectController);

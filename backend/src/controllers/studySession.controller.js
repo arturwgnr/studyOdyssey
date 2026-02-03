@@ -10,6 +10,8 @@ import {
   weeklyReport,
   topicDistribution,
   updateStudySection,
+  getWeekSummary,
+  getMonthSummary,
 } from "../services/studySession.service.js";
 
 export async function addStudySectionController(req, res) {
@@ -155,5 +157,25 @@ export async function topicDistributionController(req, res) {
     res.status(200).json(sessions);
   } catch (error) {
     res.status(500).json(error.message);
+  }
+}
+
+export async function weekSummaryController(req, res) {
+  try {
+    const userId = req.userId;
+    const minutes = await getWeekSummary({ userId });
+    res.status(200).json({ minutes });
+  } catch (err) {
+    res.status(500).json(err.message);
+  }
+}
+
+export async function monthSummaryController(req, res) {
+  try {
+    const userId = req.userId;
+    const minutes = await getMonthSummary({ userId });
+    res.status(200).json({ minutes });
+  } catch (err) {
+    res.status(500).json(err.message);
   }
 }

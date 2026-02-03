@@ -155,7 +155,7 @@
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 24px;
-  margin-bottom: 32px;
+  margin-bottom: 0px;
 }
 
 .div-cards {
@@ -460,7 +460,7 @@
   transition: 0.4s ease;
 }
 .stat-card:hover {
-  box-shadow: 1px 1px 30px rgba(0, 0, 0, 0.253);
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.205);
   transform: scale(1.01);
 }
 
@@ -664,4 +664,251 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
+}
+
+/*AJUSTES*/
+.stat-card.averages-card {
+  display: flex;
+  flex-direction: row; /* <- ISSO resolve */
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+
+.average-block {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.stat-label.highlight {
+  color: #10b77f;
+  font-weight: 700;
+}
+
+/* ===== FOCUS TYPE CARD ===== */
+
+/* ================================
+   Focus Type – Vertical Bars
+================================ */
+
+.focus-vertical {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  height: 180px;
+  margin-top: 16px;
+  gap: 12px;
+}
+
+.focus-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  width: 48px;
+}
+
+.focus-bar-vertical {
+  width: 100%;
+  height: 120px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+}
+
+.focus-fill-vertical {
+  width: 100%;
+  border-radius: 8px;
+  transition: height 0.6s ease;
+}
+
+/* cores por tipo */
+.focus-fill-vertical.theory {
+  background: #3b82f6;
+}
+
+.focus-fill-vertical.practical {
+  background: #22c55e;
+}
+
+.focus-fill-vertical.logical {
+  background: #a855f7;
+}
+
+.focus-label {
+  margin-top: 8px;
+  font-size: 12px;
+  text-transform: capitalize;
+  opacity: 0.85;
+}
+
+.focus-value {
+  font-size: 11px;
+  opacity: 0.6;
+}
+
+/* ===============================
+   Focus Split Card
+================================ */
+
+.focus-split {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 16px;
+  align-items: center;
+}
+
+.focus-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.focus-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===============================
+   Vertical Focus Bars
+================================ */
+
+.focus-vertical {
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  height: 140px;
+  margin-top: 12px;
+}
+
+.focus-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.focus-bar-vertical {
+  width: 16px;
+  height: 100%;
+  background: #e5e7eb;
+  border-radius: 6px;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+.focus-fill-vertical {
+  width: 100%;
+  border-radius: 6px;
+  transition: height 0.3s ease;
+}
+
+.focus-fill-vertical.theory {
+  background: #3b82f6;
+}
+
+.focus-fill-vertical.practical {
+  background: #22c55e;
+}
+
+.focus-fill-vertical.logical {
+  background: #a855f7;
+}
+
+.focus-label {
+  font-size: 11px;
+  text-transform: capitalize;
+  color: #6b7280;
+}
+
+.focus-value {
+  font-size: 12px;
+  font-weight: 600;
+  color: #111827;
+}
+
+/* ===============================
+   Productivity Score
+================================ */
+
+.productivity-score {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.score-value {
+  font-size: 42px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.score-max {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.score-status {
+  margin-top: 4px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.score-status.good {
+  color: #22c55e;
+}
+
+/* === LIMITA O TAMANHO DO CARD === */
+.focus-card {
+  padding: 16px 20px;
+  height: 220px; /* CONTROLE ABSOLUTO */
+}
+
+/* === GRID MAIS COMPACTO === */
+.focus-split {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  align-items: center;
+  height: 100%;
+}
+
+/* === BARRAS MAIS BAIXAS === */
+.focus-vertical {
+  height: 110px; /* ISSO RESOLVE 80% DO PROBLEMA */
+  margin-top: 8px;
+}
+
+/* === COLUNAS MAIS FINAS === */
+.focus-bar-vertical {
+  width: 14px;
+}
+
+/* === REMOVE ESPAÇO DESNECESSÁRIO === */
+.focus-col {
+  gap: 4px;
+}
+
+.score-status.good {
+  color: #22c594;
+}
+
+.score-status.excellent {
+  color: #21ec6b;
+}
+
+.score-status.ok {
+  color: #f59e0b;
+}
+
+.score-status.low {
+  color: #ef4444;
 }
