@@ -16,6 +16,7 @@
 }
 
 .logo {
+  cursor: pointer;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -42,6 +43,13 @@
   font-size: 14px;
   cursor: pointer;
   color: #374151;
+  transition: 0.4s ease;
+  font-weight: bold;
+}
+
+.nav-link:hover {
+  color: #10b981;
+  font-weight: bold;
 }
 
 .nav-cta {
@@ -52,6 +60,12 @@
   border-radius: 999px;
   font-weight: 600;
   cursor: pointer;
+  transition: 0.4s ease;
+}
+
+.nav-cta:hover {
+  background: rgb(16, 201, 139);
+  box-shadow: 1px 1px 30px #00ffaa7c;
 }
 
 /* HERO */
@@ -78,7 +92,7 @@
     ),
     radial-gradient(circle at 50% 80%, rgba(0, 0, 0, 0.025), transparent 40%),
     /* gradiente base branco */
-    linear-gradient(180deg, #e2e2e20a 0%, #eeeeee 55%, #f0efef15 100%);
+    linear-gradient(180deg, #e2e2e20a 0%, #ffffff 55%, #f0efef15 100%);
 }
 
 .hero-content {
@@ -87,8 +101,8 @@
 
 .hero-badge {
   display: inline-block;
-  background: #ecfdf5;
-  color: #047857;
+  background: #10b981;
+  color: white;
   font-size: 12px;
   font-weight: 600;
   padding: 6px 12px;
@@ -129,6 +143,12 @@
   border-radius: 999px;
   font-weight: 600;
   cursor: pointer;
+  transition: 0.4s ease;
+}
+
+.primary-btn:hover {
+  background: rgb(16, 201, 139);
+  box-shadow: 1px 1px 30px #00ffaa7c;
 }
 
 .secondary-btn {
@@ -138,32 +158,93 @@
   border-radius: 999px;
   font-weight: 600;
   cursor: pointer;
+  transition: 0.4s ease;
+}
+
+.secondary-btn:hover {
+  background-color: #fafafa;
+  box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.144);
 }
 
 .hero-stats {
-  background-color: white;
   display: flex;
-  gap: 24px;
-  font-size: 14px;
+  gap: 16px;
+}
+
+.hero-stats .stat {
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.199);
+  cursor: pointer;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 14px 18px;
+  font-size: 13px;
   color: #374151;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  transition: 0.4s ease;
+}
+
+.hero-stats .stat:hover {
+  transform: translateY(-2px);
+  box-shadow: 1px 1px 15px #00000036;
+  transition: 0.25s ease;
 }
 
 /* VISUAL */
 
 .hero-visual {
+  position: relative;
   display: flex;
   justify-content: center;
 }
 
+.hero-mascot {
+  position: absolute;
+  bottom: 80px;
+  right: 20px;
+
+  width: 160px;
+  z-index: 0;
+
+  opacity: 0;
+
+  /* ESCONDIDO ATRÁS DO CELULAR */
+  transform: translateX(-40px) translateY(20px) rotate(-14deg) scale(0.95);
+
+  transform-origin: bottom left;
+  transition: 0.45s ease;
+  pointer-events: none;
+}
+
 .mockup {
+  position: relative;
   width: 320px;
   height: 640px;
-  border-radius: 36px;
-  background: linear-gradient(180deg, #ffffff, #f3f4f6);
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #9ca3af;
-  font-weight: 600;
+  border-radius: 42px;
+  background: #0b0b0b; /* corpo do telefone */
+  padding: 14px;
+
+  box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.151);
+
+  transition: 0.3s ease;
+}
+
+.mockup:hover {
+  transform: scale(1.01);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.144);
+}
+
+.mockup-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 30px;
+  object-fit: cover;
+  background: #ffffff;
+}
+
+.hero-visual:hover .hero-mascot {
+  opacity: 1;
+  transform: translateX(0) rotate(-3deg) scale(1);
 }

@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import "../styles/Landing.css";
+import phone from "../assets/phone2.jpeg";
+import Kilp from "../assets/KILP.png";
 
 export default function Landing() {
   const nav = useNavigate();
@@ -46,21 +48,28 @@ export default function Landing() {
 
           <div className="hero-stats">
             <div className="stat">
-              🔥 <strong>Streak-based</strong> progress
+              🔥 <strong>Streak-based progress</strong>
             </div>
             <div className="stat">
               🧠 <strong>Focused sessions</strong>
             </div>
             <div className="stat">
-              🏆 <strong>Achievements</strong> & milestones
+              🏆 <strong>Achievements & milestones</strong>
             </div>
           </div>
         </div>
 
         {/* VISUAL */}
         <div className="hero-visual">
-          {/* depois você troca por mockup / imagem */}
-          <div className="mockup">App preview</div>
+          <img src={Kilp} alt="Mascot" className="hero-mascot" />
+
+          <div className="mockup">
+            <img
+              src={phone}
+              alt="Achievements preview"
+              className="mockup-image"
+            />
+          </div>
         </div>
       </main>
     </div>
