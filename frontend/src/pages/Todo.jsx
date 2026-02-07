@@ -54,6 +54,28 @@ export default function Todo() {
     fetchTasks();
   }, []);
 
+  async function handleToggleStatus(task) {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.put(
+        `http://localhost:3000/todo/${task.id}`,
+        {
+          status: task.status,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      fetchTasks();
+      console.log(res.data);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
   return (
     <main className="todo-page">
       {/* HEADER */}
@@ -90,6 +112,8 @@ export default function Todo() {
             setFormData={setFormData}
             addTask={addTask}
             handleDelete={handleDelete}
+            handleToggleStatus={handleToggleStatus}
+            fetchTasks={fetchTasks}
           />
         )}
 

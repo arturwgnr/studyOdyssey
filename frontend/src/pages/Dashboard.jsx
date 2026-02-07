@@ -243,7 +243,8 @@ export default function Dashboard() {
       const total = data.reduce((acc, d) => acc + (Number(d.minutes) || 0), 0);
 
       setTotalWeek(total);
-      setAverageWeek(Math.round(total / 7));
+      const daysWithStudy = data.filter((d) => d.minutes > 0).length || 1;
+      setAverageWeek(Math.round(total / daysWithStudy));
     } catch (error) {
       console.error(error?.message || error);
       setWeekReport([]);
@@ -398,7 +399,9 @@ export default function Dashboard() {
     <main className="dashboard-main">
       <header className="dashboard-header">
         <div className="header-left">
-          <h1 className="dashboard-title">Welcome back, {user}! 👋</h1>
+          <h1 className="dashboard-title">
+            Welcome back, <span className="user-name">{user}</span> 👋
+          </h1>
           <p className="dashboard-subtitle">
             You're 200 XP away from Level 15. Keep it up!
           </p>

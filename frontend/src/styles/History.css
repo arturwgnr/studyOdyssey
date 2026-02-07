@@ -3,7 +3,7 @@
 ========================= */
 
 .history-main {
-  padding: 32px;
+  padding: 17px;
   overflow-y: auto;
 }
 
@@ -108,6 +108,7 @@
 }
 
 .history-topic {
+  margin-right: 10px;
   font-size: 16px;
   font-weight: 600;
   color: #111827;

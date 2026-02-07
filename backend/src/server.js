@@ -38,6 +38,7 @@ import {
   fetchTasksController,
   deleteTaskController,
   editTaskController,
+  toggleTaskStatusController,
 } from "./controllers/todo.controller.js";
 
 const app = express();
@@ -94,3 +95,4 @@ app.post("/todo", authMiddleware, addTaskController);
 app.put("/todo/:id", authMiddleware, editTaskController);
 app.get("/todo", authMiddleware, fetchTasksController);
 app.delete("/todo/:id", authMiddleware, deleteTaskController);
+app.put("/todo-status/:id", authMiddleware, toggleTaskStatusController);

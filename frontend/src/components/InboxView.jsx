@@ -7,6 +7,7 @@ export default function InboxView({
   setFormData,
   addTask,
   handleDelete,
+  fetchTasks,
 }) {
   function formatDate(date) {
     return new Date(date).toLocaleDateString("en-IE", {
@@ -30,14 +31,16 @@ export default function InboxView({
   async function toggleCompleted(task) {
     const token = localStorage.getItem("token");
 
+    const newStatus = task.status === "PENDING" ? "DONE" : "PENDING";
+
     const res = await axios.put(
-      `http://localhost:3000/todo/${task.id}`,
-      { completed: !task.completed },
+      `http://localhost:3000/todo-status/${task.id}`,
+      { status: newStatus },
       { headers: { Authorization: `Bearer ${token}` } },
     );
 
-    // atualiza estado local (sem refetch)
-    task.completed = res.data.completed;
+    fetchTasks();
+    console.log(res.data);
   }
 
   return (
@@ -104,7 +107,7 @@ export default function InboxView({
             onDragStart={(e) => onDragStart(e, task.id)}
             onClick={() => toggleCompleted(task)}
             className={`task-card priority-${task.priority.toLowerCase()} ${
-              task.completed ? "completed" : ""
+              task.status === "DONE" ? "completed" : ""
             }`}
           >
             {/* CARD HEADER */}
@@ -141,7 +144,7 @@ export default function InboxView({
                 {task.priority}
               </span>
 
-              {task.completed ? (
+              {task.status === "DONE" ? (
                 <span className="task-status completed">Done</span>
               ) : task.plannedDate ? (
                 <span className="task-status planned">Planned</span>

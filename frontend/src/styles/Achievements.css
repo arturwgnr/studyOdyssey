@@ -1,0 +1,40 @@
+.achievements-page {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.achievements-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 48px 40px;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+}
+
+.achievements-mascot {
+  width: 140px;
+  margin-bottom: 5px;
+  opacity: 0.95;
+}
+
+.achievements-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 6px;
+}
+
+.achievements-subtitle {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 18px;
+}
+
+.achievements-hint {
+  font-size: 13px;
+  color: #9ca3af;
+}

@@ -3,7 +3,7 @@
 ========================= */
 
 .projects-main {
-  padding: 32px;
+  padding: 17px !important;
   overflow-y: auto;
 }
 

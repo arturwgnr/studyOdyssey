@@ -3,6 +3,7 @@ import {
   fetchTasks,
   deleteTask,
   editTask,
+  toggleTaskStatus,
 } from "../services/todo.service.js";
 
 export async function fetchTasksController(req, res) {
@@ -70,6 +71,20 @@ export async function editTaskController(req, res) {
       description,
       priority,
     });
+
+    res.status(200).json(updated);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+}
+
+export async function toggleTaskStatusController(req, res) {
+  try {
+    const { id } = req.params;
+    const userId = req.userId;
+    const { status } = req.body;
+
+    const updated = await toggleTaskStatus({ id, userId, status });
 
     res.status(200).json(updated);
   } catch (error) {

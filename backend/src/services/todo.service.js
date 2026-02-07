@@ -31,7 +31,7 @@ export async function deleteTask({ userId, id }) {
 }
 
 export async function editTask({ userId, id, title, description, priority }) {
-  const task = await prisma.task.findUnique({
+  const task = await prisma.task.findFirst({
     where: { id, userId },
   });
 
@@ -45,4 +45,21 @@ export async function editTask({ userId, id, title, description, priority }) {
   });
 
   return updated;
+}
+
+export async function toggleTaskStatus({ id, userId, status }) {
+  const task = await prisma.task.findFirst({
+    where: { id, userId },
+  });
+
+  if (!task) {
+    throw new Error("TASK_NOT_FOUND");
+  }
+
+  return prisma.task.update({
+    where: {
+      id,
+    },
+    data: { status },
+  });
 }

@@ -104,6 +104,7 @@ export default function History() {
           <article key={s.id} className="history-card">
             {/* ACTIONS */}
             <div className="history-actions">
+              <span className={`history-type ${s.type}`}>{s.type}</span>
               <button
                 className="history-btn edit"
                 onClick={() => {
@@ -131,7 +132,6 @@ export default function History() {
             {/* MAIN */}
             <div className="history-main-content">
               <h3 className="history-topic">{s.topic}</h3>
-              <span className={`history-type ${s.type}`}>{s.type}</span>
             </div>
 
             {/* META */}

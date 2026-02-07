@@ -168,6 +168,9 @@ export default function Projects() {
             <article key={p.id} className={`project-card ${p.status}`}>
               {/* ACTIONS */}
               <div className="project-actions">
+                <span className={`project-status status-${p.status}`}>
+                  {p.status}
+                </span>
                 <button
                   onClick={() => {
                     setIsEditing(true);
@@ -193,9 +196,6 @@ export default function Projects() {
               {/* HEADER */}
               <div className="project-header">
                 <h3 className="project-name">{p.name}</h3>
-                <span className={`project-status status-${p.status}`}>
-                  {p.status}
-                </span>
               </div>
 
               {/* DESCRIPTION */}

@@ -15,6 +15,10 @@
   width: fit-content;
 }
 
+.user-name {
+  color: #10b981; /* ou a cor que você usa no projeto */
+}
+
 .dashboard-container {
   display: flex;
   height: 100vh;
@@ -23,7 +27,7 @@
 
 .dashboard-main {
   flex: 1;
-  padding: 32px;
+  padding: 17px;
   overflow-y: auto;
 }
 
@@ -483,7 +487,6 @@
 /* =========================
    LAST SESSION
 ========================= */
-
 .last-section {
   margin-top: 32px;
 }

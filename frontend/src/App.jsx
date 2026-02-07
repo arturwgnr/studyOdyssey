@@ -7,6 +7,8 @@ import Dashboard from "./pages/Dashboard";
 import History from "./pages/History";
 import Projects from "./pages/Projects";
 import Todo from "./pages/Todo";
+import Achievements from "./pages/Achievements";
+import Profile from "./pages/Profile";
 
 import DashboardLayout from "./layouts/DashboardLayout";
 
@@ -27,6 +29,8 @@ function App() {
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="history" element={<History />} />
           <Route path="todo" element={<Todo />} />
+          <Route path="achievements" element={<Achievements />} />
+          <Route path="profile" element={<Profile />} />
           <Route path="projects" element={<Projects />} />
         </Route>
       </Routes>
