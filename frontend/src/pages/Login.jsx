@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import "../styles/Auth.css";
 
 export default function Login() {
   const nav = useNavigate();
@@ -27,7 +28,7 @@ export default function Login() {
       );
 
       const token = res.data.token;
-      const user = formData.email; // <-- aqui sim existe
+      const user = formData.email;
 
       localStorage.setItem("user", user);
       localStorage.setItem("token", token);
@@ -39,30 +40,46 @@ export default function Login() {
   }
 
   return (
-    <div>
-      <h1>Login Page</h1>
+    <div className="auth-page">
+      <div className="auth-card">
+        <div className="header">
+          <h1>Welcome back</h1>
+          <p className="auth-subtitle">Log in to continue your progress</p>
+        </div>
 
-      <form className="login-area" onSubmit={handleSubmit}>
-        <p>Email:</p>
-        <input
-          type="text"
-          name="email"
-          placeholder="insert email"
-          value={formData.email}
-          onChange={handleChange}
-        />
-        <p>Password:</p>
-        <input
-          type="password"
-          name="password"
-          placeholder="insert password"
-          value={formData.password}
-          onChange={handleChange}
-        />{" "}
-        <br />
-        <br />
-        <button type="submit">Login</button>
-      </form>
+        <form onSubmit={handleSubmit}>
+          <div className="input-group">
+            <label>Email</label>
+            <input
+              type="email"
+              name="email"
+              placeholder="you@example.com"
+              value={formData.email}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="input-group">
+            <label>Password</label>
+            <input
+              type="password"
+              name="password"
+              placeholder="Your password"
+              value={formData.password}
+              onChange={handleChange}
+            />
+          </div>
+
+          <button type="submit" className="auth-btn">
+            Log in
+          </button>
+        </form>
+
+        <p className="auth-footer">
+          Don’t have an account?{" "}
+          <span onClick={() => nav("/register")}>Create one</span>
+        </p>
+      </div>
     </div>
   );
 }

@@ -61,9 +61,9 @@ export default function Landing() {
 
         {/* VISUAL */}
         <div className="hero-visual">
-          <img src={Kilp} alt="Mascot" className="hero-mascot" />
-
           <div className="mockup">
+            <img src={Kilp} alt="Mascot" className="hero-mascot" />
+
             <img
               src={phone}
               alt="Achievements preview"
