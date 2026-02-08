@@ -12,12 +12,14 @@
       transparent 1px,
       transparent 3px
     ),
-    /* fundo base existente */ linear-gradient(180deg, #f9fafb 0%, #f3f4f6 100%);
+    /* fundo base existente */
+    linear-gradient(180deg, #d1f1d73a 0%, #7ae0664b 100%);
 }
 
 /* HEADER */
 
 .landing-header {
+  background-color: rgba(255, 255, 255, 0.877);
   box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.075);
   display: flex;
   justify-content: space-between;
@@ -74,7 +76,7 @@
 
 .nav-cta:hover {
   background: #14d494;
-  box-shadow: 1px 1px 20px #14d49486;
+  box-shadow: 1px 1px 30px #14d49434;
 }
 
 /* HERO */
@@ -258,7 +260,7 @@
   }
 
   50% {
-    transform: translateY(-5px) rotate(-6.5deg);
+    transform: translateY(-6px) rotate(-6.5deg);
   }
 
   100% {
